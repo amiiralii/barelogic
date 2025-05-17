@@ -329,6 +329,24 @@ def main():
       fun(coerce(arg))
 
 #--------- --------- --------- --------- --------- --------- ------- -------
+def kpp(i, k, rows=None):
+    def D(x, y):
+      key = tuple(sorted((id(x), id(y))))
+      if key not in mem: mem[key] = i.xdist(x,y)
+      return mem[key]
+     
+    row, *rows = random.shuffle(rows or i.rows)[:the.some]
+    out, mem = [row], {}
+    for _ in range(1, k):
+      dists = [min(D(x, y)**2 for y in out) for x in rows]
+      r     = random.random() * sum(dists)
+      for j, d in enumerate(dists):
+        r -= d
+        if r <= 0:
+          out.append(rows.pop(j))
+          break
+    return out, mem
+#--------- --------- --------- --------- --------- --------- ------- -------
 def eg__the(_): print(the)
 
 def eg__cols(_): 
