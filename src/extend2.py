@@ -5,6 +5,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.linear_model import LinearRegression
 import lightgbm as lgb
 import matplotlib.pyplot as plt
+import random
 
 def split_data(data, test_size=0.2):
     # Shuffle the data
@@ -25,7 +26,6 @@ def split_data(data, test_size=0.2):
         add(row, test_data)
         
     return train_data, test_data
-
 
 def lightgbm(unlabeled, labeled, cols, data, stats, regressor):
     features = [c for c in cols if c[-1] not in ["+","-", "X"]]
@@ -69,49 +69,51 @@ def lightgbm(unlabeled, labeled, cols, data, stats, regressor):
     pred_data = Data([targets]+[list(row) for row in pred_rows])
     ydist_values = [ydist(row, pred_data) for row in pred_data.rows]
     top_points = sorted(range(len(ydist_values)), key=lambda i: ydist_values[i])
-    for k in [20,15,10,5,3,1]:
-        top = top_points[:k]
-        d2h_results = [ydist(unlabeled[t], data) for t in top]
-        stats[k].append([np.mean(d2h_results), np.std(d2h_results)])
-    return stats
+    top = top_points[:5]
+    d2h_results = [ydist(unlabeled[t], data) for t in top]
+    return [np.mean(d2h_results), np.std(d2h_results)]
 
 def exp1(file, repeats, regressor = "lgbm"):
-    stats = {j:[] for j in [20,15,10,5,3,1]}
+
+    out = {str(j):[] for j in [512, 256,128,64,32,16,8]}
     raw_data  = Data(csv(file))
     data, test_data = split_data(raw_data)
-    for _ in range(repeats):
-        model = actLearn(data)
-        labeled = model.best.rows + model.rest.rows
-        unlabeled = test_data.rows
-        stats = lightgbm(unlabeled, labeled, [d.txt for d in data.cols.all], data, stats, regressor)
-    out = {}
-    for s,v in stats.items():
-        mean = sum(mean for mean,_ in v) / len(v)
-        std = sum(std for _,std in v) / len(v)
-        out[s] = [mean,std]
+    for Stop in [512, 256,128,64,32,16,8]:
+        the.Stop = Stop
+        if Stop == 512: the.Stop = len(data.rows)
+        stats = []
+        for _ in range(repeats):
+            model = actLearn(data, shuffle=True)
+            labeled = model.best.rows + model.rest.rows
+            unlabeled = test_data.rows
+            stats.append(lightgbm(unlabeled, labeled, [d.txt for d in data.cols.all], data, stats, regressor))
+        mean = sum(s[0] for s in stats) / len(stats)
+        std = sum(s[1] for s in stats) / len(stats)
+        out[str(Stop)] = [mean,std]
     [print(s,v) for s,v in out.items()]
     return out
 
 def exp2(file, repeats):
     raw_data  = Data(csv(file))
     data, test_data = split_data(raw_data)
-    after = {j:[] for j in [20,15,10,5,3,1]}
-    for _ in range(repeats):
-        model = actLearn(data,shuffle=True)
-        nodes = tree(model.best.rows + model.rest.rows,data)
-        guesses = sorted([(leaf(nodes,row).ys,row) for row in test_data.rows],key=first)
-        for k in after:
-            d2h_results = [ydist(guess,data) for _,guess in guesses[:k]]
-            after[k].append([np.mean(d2h_results), np.std(d2h_results)])
-    out = {}
-    for s,v in after.items():
-        mean = sum(mean for mean,_ in v) / len(v)
-        std = sum(std for _,std in v) / len(v)
-        out[s] = [mean,std]
+    
+    out = {str(j):[] for j in [512,256,128,64,32,16,8]}
+    for Stop in [512,256,128,64,32,16,8]:
+        the.Stop = Stop
+        if Stop == 512: the.Stop = len(data.rows)
+        stat = []
+        for _ in range(repeats):
+            model = actLearn(data,shuffle=True)
+            nodes = tree(model.best.rows + model.rest.rows,data)
+            guesses = sorted([(leaf(nodes,row).ys,row) for row in test_data.rows],key=first)
+            d2h_results = [ydist(guess,data) for _,guess in guesses[:5]]
+            stat.append([np.mean(d2h_results), np.std(d2h_results)])
+        mean = sum(s[0] for s in stat) / len(stat)
+        std = sum(s[1] for s in stat) / len(stat)
+        out[str(Stop)] = [mean,std]
     [print(s,v) for s,v in out.items()]
     return out
     
-
 
 
 dataset = sys.argv[1]
@@ -130,13 +132,14 @@ print(f'--- {bl_time}s ---')
 
 # Example: If results are lists of numbers (e.g., ydist values)
 x = results1.keys() # or use a meaningful x-axis
-plt.errorbar(x, [r[0] for r in results1.values()], yerr=[r[1] for r in results1.values()], label=f'LGBM {lgbm_time} s', marker='o',capsize=5)
-plt.errorbar([xx+0.15 for xx in x], [r[0] for r in results2.values()], yerr=[r[1] for r in results2.values()], label=f'LR {lr_time} s', marker='o',capsize=5)
-plt.errorbar([xx+0.3 for xx in x], [r[0] for r in results3.values()], yerr=[r[1] for r in results3.values()], label=f'BL {bl_time} s', marker='o',capsize=5)
+plt.errorbar([int(xx) for xx in x], [r[0] for r in results1.values()], yerr=[r[1] for r in results1.values()], label=f'LGBM {lgbm_time} s', marker='o',capsize=5)
+plt.errorbar([int(xx)+1 for xx in x], [r[0] for r in results2.values()], yerr=[r[1] for r in results2.values()], label=f'LR {lr_time} s', marker='o',capsize=5)
+plt.errorbar([int(xx)+2 for xx in x], [r[0] for r in results3.values()], yerr=[r[1] for r in results3.values()], label=f'BL {bl_time} s', marker='o',capsize=5)
 
-plt.xlabel('Number of top points selected')
+plt.xlabel('Active Learning Budget')
 plt.ylabel('Distance to Heaven')
 plt.ylim([0.0, 1])
+plt.xticks([int(xx) for xx in x], [str(xx) for xx in x])  # Only show the Stop values
 plt.title(f'{dataset.split("/")[-1][:-4]} D2H comparison of k Best points')
 plt.legend()
-plt.savefig(f"result_1/{dataset.split("/")[-1][:-4]}.png", dpi=300)
+plt.savefig(f"result_2/{dataset.split("/")[-1][:-4]}.png", dpi=300)
