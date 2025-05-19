@@ -24,9 +24,6 @@ def split_data(data, test_size=0.2):
     for row in rows[split_idx:]:
         add(row, test_data)
     
-    print("Train:", train_data.rows[0], train_data.rows[1])
-    print("Test:", test_data.rows[0], test_data.rows[1])
-    input()
     return train_data, test_data
 
 def lightgbm(unlabeled, labeled, cols, data, stats, regressor):
@@ -91,7 +88,7 @@ def exp1(file, repeats, regressor = "lgbm"):
             model = actLearn(data, shuffle=True)
             labeled = model.best.rows + model.rest.rows
             unlabeled = test_data.rows
-            stats = lightgbm(unlabeled, labeled, [d.txt for d in data.cols.all], data, stats, regressor)
+            stats = lightgbm(unlabeled, labeled, [d.txt for d in data.cols.all], raw_data, stats, regressor)
         
         for s in stats:
             mean = sum(stats[s]) / len(stats[s])

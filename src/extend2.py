@@ -86,7 +86,7 @@ def exp1(file, repeats, regressor = "lgbm"):
             model = actLearn(data, shuffle=True)
             labeled = model.best.rows + model.rest.rows
             unlabeled = test_data.rows
-            stats.append(lightgbm(unlabeled, labeled, [d.txt for d in data.cols.all], data, stats, regressor))
+            stats.append(lightgbm(unlabeled, labeled, [d.txt for d in data.cols.all], raw_data, stats, regressor))
         mean = sum(s[0] for s in stats) / len(stats)
         std = sum(s[1] for s in stats) / len(stats)
         out[str(Stop)] = [mean,std]
