@@ -37089,25 +37089,25 @@
 /***/ })
 /******/ ]);
 //# sourceMappingURL=bundle.js.map </script></head><body>
-        <div class="lime top_div" id="top_div57ESF6VAIUQ205U"></div>
+        <div class="lime top_div" id="top_divMEKMRPFWB19XV10"></div>
         
         <script>
-        var top_div = d3.select('#top_div57ESF6VAIUQ205U').classed('lime top_div', true);
+        var top_div = d3.select('#top_divMEKMRPFWB19XV10').classed('lime top_div', true);
         
         
                     var pp_div = top_div.append('div')
                                         .classed('lime predicted_value', true);
                     var pp_svg = pp_div.append('svg').style('width', '100%');
-                    var pp = new lime.PredictedValue(pp_svg, -5.587819282784883, -15.132614820051767, -4.593518255123177);
+                    var pp = new lime.PredictedValue(pp_svg, 0.49573515802850543, 0.2197935568862483, 0.8522082070051721);
                     
         var exp_div;
             var exp = new lime.Explanation(["negative", "positive"]);
         
             exp_div = top_div.append('div').classed('lime explanation', true);
-            exp.show([["-0.86 < Clndrs <= 1.50", 4.661849690633807], ["origin <= -0.72", 1.2342226928751538], ["Model <= -0.82", -0.8456327418071806], ["Volume > 0.66", -0.2191298288361384]], 1, exp_div);
+            exp.show([["origin <= 0.00", 0.07867283612897019], ["Clndrs <= 4.00", -0.07599868853022541], ["Model > 80.25", -0.05467931535537244], ["90.75 < Volume <= 142.50", -0.04658235770871596]], 1, exp_div);
             
         var raw_div = top_div.append('div');
-            exp.show_raw_tabular([["Clndrs", "1.50", 4.661849690633807], ["origin", "-0.72", 1.2342226928751538], ["Model", "-1.63", -0.8456327418071806], ["Volume", "1.60", -0.2191298288361384]], 1, raw_div);
+            exp.show_raw_tabular([["origin", "0.00", 0.07867283612897019], ["Clndrs", "4.00", -0.07599868853022541], ["Model", "82.00", -0.05467931535537244], ["Volume", "135.00", -0.04658235770871596]], 1, raw_div);
         
         </script>
         </body></html>

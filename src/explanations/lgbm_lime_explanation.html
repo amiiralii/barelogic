@@ -37089,25 +37089,25 @@
 /***/ })
 /******/ ]);
 //# sourceMappingURL=bundle.js.map </script></head><body>
-        <div class="lime top_div" id="top_divNVZWGFA5VEFJETG"></div>
+        <div class="lime top_div" id="top_divL0FJMISFA4CNAQJ"></div>
         
         <script>
-        var top_div = d3.select('#top_divNVZWGFA5VEFJETG').classed('lime top_div', true);
+        var top_div = d3.select('#top_divL0FJMISFA4CNAQJ').classed('lime top_div', true);
         
         
                     var pp_div = top_div.append('div')
                                         .classed('lime predicted_value', true);
                     var pp_svg = pp_div.append('svg').style('width', '100%');
-                    var pp = new lime.PredictedValue(pp_svg, -5.587819282784883, -15.038270408058972, -4.543306436279469);
+                    var pp = new lime.PredictedValue(pp_svg, 0.49573515802850543, 0.21880519849460656, 0.8522082070051721);
                     
         var exp_div;
             var exp = new lime.Explanation(["negative", "positive"]);
         
             exp_div = top_div.append('div').classed('lime explanation', true);
-            exp.show([["-0.86 < Clndrs <= 1.50", 4.67402745216898], ["origin <= -0.72", 1.273030878112751], ["Model <= -0.82", -0.8623853826362505], ["Volume > 0.66", -0.13128292857320306]], 1, exp_div);
+            exp.show([["origin <= 0.00", 0.0813965533424617], ["Clndrs <= 4.00", -0.07797366415976033], ["Model > 80.25", -0.05668212376033821], ["90.75 < Volume <= 142.50", -0.04457976111214029]], 1, exp_div);
             
         var raw_div = top_div.append('div');
-            exp.show_raw_tabular([["Clndrs", "1.50", 4.67402745216898], ["origin", "-0.72", 1.273030878112751], ["Model", "-1.63", -0.8623853826362505], ["Volume", "1.60", -0.13128292857320306]], 1, raw_div);
+            exp.show_raw_tabular([["origin", "0.00", 0.0813965533424617], ["Clndrs", "4.00", -0.07797366415976033], ["Model", "82.00", -0.05668212376033821], ["Volume", "135.00", -0.04457976111214029]], 1, raw_div);
         
         </script>
         </body></html>
