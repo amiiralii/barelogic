@@ -37089,25 +37089,25 @@
 /***/ })
 /******/ ]);
 //# sourceMappingURL=bundle.js.map </script></head><body>
-        <div class="lime top_div" id="top_divL0FJMISFA4CNAQJ"></div>
+        <div class="lime top_div" id="top_divAASPORK2KR2D50X"></div>
         
         <script>
-        var top_div = d3.select('#top_divL0FJMISFA4CNAQJ').classed('lime top_div', true);
+        var top_div = d3.select('#top_divAASPORK2KR2D50X').classed('lime top_div', true);
         
         
                     var pp_div = top_div.append('div')
                                         .classed('lime predicted_value', true);
                     var pp_svg = pp_div.append('svg').style('width', '100%');
-                    var pp = new lime.PredictedValue(pp_svg, 0.49573515802850543, 0.21880519849460656, 0.8522082070051721);
+                    var pp = new lime.PredictedValue(pp_svg, 0.457613931697315, 0.3090959857420879, 0.8914034877114634);
                     
         var exp_div;
             var exp = new lime.Explanation(["negative", "positive"]);
         
             exp_div = top_div.append('div').classed('lime explanation', true);
-            exp.show([["origin <= 0.00", 0.0813965533424617], ["Clndrs <= 4.00", -0.07797366415976033], ["Model > 80.25", -0.05668212376033821], ["90.75 < Volume <= 142.50", -0.04457976111214029]], 1, exp_div);
+            exp.show([["Clndrs <= 4.00", -0.11540157247263556], ["Model > 79.00", -0.06312035959914437], ["origin <= 0.00", -0.005420373748449501], ["105.00 < Volume <= 151.00", 0.0048328874650928645]], 1, exp_div);
             
         var raw_div = top_div.append('div');
-            exp.show_raw_tabular([["origin", "0.00", 0.0813965533424617], ["Clndrs", "4.00", -0.07797366415976033], ["Model", "82.00", -0.05668212376033821], ["Volume", "135.00", -0.04457976111214029]], 1, raw_div);
+            exp.show_raw_tabular([["Clndrs", "4.00", -0.11540157247263556], ["Model", "82.00", -0.06312035959914437], ["origin", "0.00", -0.005420373748449501], ["Volume", "135.00", 0.0048328874650928645]], 1, raw_div);
         
         </script>
         </body></html>

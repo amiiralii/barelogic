@@ -44,8 +44,9 @@ data, test_data = split_data(raw_data)
 cols = [d.txt for d in data.cols.all]
 features = [c for c in cols if c[-1] not in ["+","-", "X"]]
 targets = [c for c in cols if c[-1] in ["+","-"]]
-
+the.Stop = len(data.rows)
 model = actLearn(data,shuffle=True)
+print(len(model.best.rows + model.rest.rows))
 nodes = tree(model.best.rows + model.rest.rows,data)
 
 showTree(nodes)
@@ -73,6 +74,24 @@ unlabeled_df = pd.DataFrame(unlabeled, columns=[c for c in cols])
 
 labeled_y = pd.DataFrame([ydist(row,data) for row in labeled],columns=["d2h"])
 unlabeled_y = pd.DataFrame([ydist(row,data) for row in unlabeled],columns=["d2h"])
+
+# Create scatter plots for each feature
+plt.figure(figsize=(15, 10))
+n_features = len(features)
+n_cols = 3
+n_rows = (n_features + n_cols - 1) // n_cols
+
+for i, feature in enumerate(features, 1):
+    plt.subplot(n_rows, n_cols, i)
+    plt.scatter(labeled_df[feature], labeled_y['d2h'], alpha=0.5)
+    plt.xlabel(feature)
+    plt.ylabel('d2h')
+    plt.title(f'{feature} vs d2h')
+    plt.grid(True, linestyle='--', alpha=0.7)
+
+plt.tight_layout()
+plt.savefig('explanations/feature_scatter_plot_100.png', dpi=300, bbox_inches='tight')
+plt.close()
 
 le = LabelEncoder()
 for c in cols:
@@ -185,7 +204,6 @@ plt.tight_layout()
 plt.savefig("explanations/shap_summary.png", dpi=300, bbox_inches="tight")
 plt.clf()
 
-print(f"True target = {unlabeled_y.iloc[idx]["d2h"]}, model prediction = {model.predict(unlabeled_df[features].iloc[[idx]])[0]}")
 shap.plots.waterfall(
     shap.Explanation(
         values=shap_values[idx],
@@ -224,9 +242,10 @@ plt.xlabel('Features', fontweight='bold')
 plt.ylabel('Feature Importance', fontweight='bold')
 plt.title('Feature Importance Comparison Across Different Explainers')
 plt.xticks([r + barWidth for r in range(len(features))], features, rotation=45, ha='right')
+plt.ylim([0.0, 1.0])
 plt.legend()
 plt.grid(True, linestyle='--', alpha=0.7, axis='y')
 plt.tight_layout()
-plt.savefig('explanations/feature_importance_comparison.png', dpi=300, bbox_inches='tight')
+plt.savefig('explanations/feature_importance_comparison_100.png', dpi=300, bbox_inches='tight')
 plt.close()
 

@@ -255,10 +255,10 @@ def treeMDI(node, lvl=0):
     
 def treeFeatureImportance(tree, importance = {}):
   imp = importance or {j.txt:0 for j in tree.cols.x}
-  for _, node in nodes(tree):
+  for lvl, node in nodes(tree):
     if len(node.kids)>0:
       w = sum(kid.n for kid in node.kids)
-      imp[node.colSplit.txt] += sum( (kid.n/w) * kid.impurity for kid in node.kids )
+      imp[node.colSplit.txt] += (1 / (lvl+1)**2) * sum( (kid.n/w) * kid.impurity for kid in node.kids )
   return imp
 
 #--------- --------- --------- --------- --------- --------- ------- -------
