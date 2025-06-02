@@ -243,13 +243,14 @@ def leaf(node, row):
   for kid in node.kids or []:
     if kid.decision(row): 
       return leaf(kid,row)
-  return node 
+  return node
 
 def treeMDI(node, lvl=0):
   if not node.kids: return 0
   kidMDIs = 0
   for kid in node.kids:
     kidMDIs += treeMDI(kid, lvl+1)
+  #kidMDIs = sum(k.impurity for k in node.kids if k.kids )
   w = sum(kid.n for kid in node.kids)
   return kidMDIs + sum( (kid.n/w) * kid.impurity for kid in node.kids )
     
@@ -258,7 +259,7 @@ def treeFeatureImportance(tree, importance = {}):
   for lvl, node in nodes(tree):
     if len(node.kids)>0:
       w = sum(kid.n for kid in node.kids)
-      imp[node.colSplit.txt] += (1 / (lvl+1)**2) * sum( (kid.n/w) * kid.impurity for kid in node.kids )
+      imp[node.colSplit.txt] += sum( (kid.n/w) * kid.impurity for kid in node.kids )
   return imp
 
 #--------- --------- --------- --------- --------- --------- ------- -------
