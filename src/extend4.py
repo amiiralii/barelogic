@@ -501,7 +501,7 @@ def main():
         # Customize the plot
         plt.xlabel('# Top Features')
         plt.ylabel('% worst optimal d2hs')
-        plt.title(f'Performance Comparison (regresssion: {regressor}, {(time.time()-t1)//0.1}s)')
+        plt.title(f'Performance Comparison (regresssion: {regressor}, {(time.time()-t1)//1}s)')
         plt.grid(True, linestyle='--', alpha=0.7)
         plt.legend()
         plt.ylim(-100, 100)
