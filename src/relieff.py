@@ -79,8 +79,7 @@ def __distance(k, sigma):
 
 # This follows Eqn 2
 def __diffNumeric(A, XRandomInstance, XKNNj, X):
-    denominator = np.max(X[:, A]) - np.min(X[:, A])
-
+    denominator = np.max(X[:, A]) - np.min(X[:, A]) + 1E-32
     return np.abs(XRandomInstance[A] - XKNNj[A]) / denominator
 
 

@@ -111,10 +111,9 @@ afterDumb: ../../moot/optimize/[bchmp]*/*.csv
 	{ $(foreach d, $^, (python3 -B bl.py -l 2  --afterDumb $d &);) } | tee  ~/tmp/$@.out
 	bash after.sh ~/tmp/$@.out
 
-exp4: ../../moot/optimize/[bchmp]*/*.csv
+exp5: ../../moot/optimize/[bchmp]*/*.csv
 	mkdir -p ~/tmp
-	{ $(foreach d, $^, (python3.12 extend4.py $d);) } | tee  ~/tmp/$@.out
-	bash after.sh ~/tmp/$@.out
+	{ $(foreach d, $^, (python3.12 extend5.py $d);) } | tee  ~/tmp/$@.out
 
 stats: ../../moot/optimize/[bchmp]*/*.csv
 	echo "     x      y   rows"
