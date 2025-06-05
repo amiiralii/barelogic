@@ -22,14 +22,10 @@ from neural_net import *
 from relieff import RReliefF
 
 
-Random_seed = 42
-
-def split_data(data, test_size=0.2):
-    global Random_seed
+def split_data(data, r_seed = 42, test_size=0.2):
     # Shuffle the data
     rows = data.rows.copy()
-    random.seed(Random_seed)
-    Random_seed *= 2
+    random.seed(r_seed)
     random.shuffle(rows)
     # Calculate split point
     split_idx = int(len(rows) * (1 - test_size))
@@ -48,19 +44,28 @@ def split_data(data, test_size=0.2):
 
 def run_bl_explainer(data):
     """Run BareLogic explainer and return feature importance"""
+    print('-------BL:-------')
     the.Stop = 32
     t1 = time.time()
-    model = actLearn(data, shuffle=True)
-    nodes = tree(model.best.rows + model.rest.rows, data)
-    #showTree(nodes)
-    print("MDI of BL tree:\t", round(treeMDI(nodes), 3))
-    bl_FI = treeFeatureImportance(nodes)
+    stts = []
+    count = 0
+    for _ in range(15):
+        model = actLearn(data, shuffle=True)
+        nodes = tree(model.best.rows + model.rest.rows, data)
+        #showTree(nodes)
+        #print("MDI of BL tree:\t", round(treeMDI(nodes), 3))
+        vals = treeFeatureImportance(nodes)
+        stts.append(vals)
+        count += len([i for i in vals.values() if i > 0])
+    bl_FI = {}
+    for f in data.cols.x:
+        bl_FI[f.txt] = np.average([stts[i][f.txt] for i in range(len(stts))])
     w = sum(vf for vf in bl_FI.values())
     for f in bl_FI:
         bl_FI[f] = bl_FI[f] / w
     bl_FI["explainer"] = "BL"
     bl_FI["run_time"] = time.time()-t1
-    return bl_FI
+    return bl_FI, count // 15
 
 def distribution_plot(labeled, data, features, sample):
     cols = [d.txt for d in data.cols.all]
@@ -307,13 +312,8 @@ def csv2(file, cols):
       line = re.sub(r'([\n\t\r ]|#.*)', '', line)
       if line: yield [coerce2(s, cols) for s in line.split(",")]
 
-def regression(unlabeled, labeled, cols, data, regressor, top_pick):
+def regression(labeled_df, unlabeled_df, labeled_y, unlabeled_y, cols, regressor, top_pick):
     features = [c for c in cols if c[-1] not in ["+","-", "X"]]
-    labeled_df = pd.DataFrame(labeled, columns=cols)
-    unlabeled_df = pd.DataFrame(unlabeled, columns=cols)
-    labeled_y = pd.DataFrame([ydist(row, data) for row in labeled], columns=["d2h"])
-    unlabeled_y = pd.DataFrame([ydist(row, data) for row in unlabeled], columns=["d2h"])
-
     le = LabelEncoder()
     for c in cols:
         if c[0].isupper():
@@ -361,40 +361,37 @@ def regression(unlabeled, labeled, cols, data, regressor, top_pick):
     #input()
     return sorted([unlabeled_y.iloc[i].values for i in top_idx])[-1][0] ## Returning d2h of worst point
 
-def exp1(file, columns, repeats, regressor, top_pick = 5, stop = 32):
+def exp1(selected_raw_data, data, test_data, b4, regressor, top_pick = 5, stop = 32):
     def win(x): return round(100*(1 - (x - b4.lo)/(b4.mu - b4.lo)))
-    selected_raw_data = Data(csv2(file, columns))
     the.Stop = stop
     stats = []
-    for _ in range(repeats):
-        data, test_data = split_data(selected_raw_data)
-        b4    = yNums(data.rows, selected_raw_data)
-        labeled = data.rows
-        unlabeled = test_data.rows
-        stats.append( win( regression(unlabeled, labeled, [d.txt for d in data.cols.all], selected_raw_data, regressor, top_pick) ) )
+    labeled = data.rows
+    unlabeled = test_data.rows
+    cols = [d.txt for d in data.cols.all]
+    labeled_df = pd.DataFrame(labeled, columns=cols)
+    unlabeled_df = pd.DataFrame(unlabeled, columns=cols)
+    labeled_y = pd.DataFrame([ydist(row, data) for row in labeled], columns=["d2h"])
+    unlabeled_y = pd.DataFrame([ydist(row, selected_raw_data) for row in unlabeled], columns=["d2h"])
+
+    stats.append( win( regression(labeled_df, unlabeled_df, labeled_y, unlabeled_y, cols, regressor, top_pick) ) )
     return np.mean(stats), np.std(stats)
 
-def exp2(file, columns, repeats, top_pick = 5, stop = 32):
+def exp2(selected_raw_data, data, test_data, b4, top_pick = 5, stop = 32):
     def win(x): return round(100*(1 - (x - b4.lo)/(b4.mu - b4.lo)))
-    selected_raw_data = Data(csv2(file, columns))
     the.Stop = stop
     stats = []
-    for _ in range(repeats):
-        data, test_data = split_data(selected_raw_data)
-        b4    = yNums(data.rows, selected_raw_data)
-        unlabeled_y = pd.DataFrame([ydist(row, data) for row in test_data.rows], columns=["d2h"])
-        model = actLearn(data,shuffle=False)
-        nodes = tree(model.best.rows + model.rest.rows,data)
-        guesses = sorted([(leaf(nodes,row).ys, i) for i, row in enumerate(test_data.rows)],key=first)
-        stats.append( win(sorted([unlabeled_y.iloc[i].values for _, i in guesses[:top_pick]])[-1][0]) )
-    return np.mean(stats), np.std(stats)
+    unlabeled_y = pd.DataFrame([ydist(row, selected_raw_data) for row in test_data.rows], columns=["d2h"])
+    model = actLearn(data,shuffle=False)
+    nodes = tree(model.best.rows + model.rest.rows,data)
+    guesses = sorted([(leaf(nodes,row).ys, i) for i, row in enumerate(test_data.rows)],key=first)
+    stats.append( win(sorted([unlabeled_y.iloc[i].values for _, i in guesses[:top_pick]])[-1][0]) )
 
-def find_optimal(file, picks):
+    vals = treeFeatureImportance(nodes)
+    return np.mean(stats), np.std(stats), len([i for i in vals.values() if i > 0])
+
+def find_optimal(selected_raw_data, test_data, b4, picks):
     def win(x): return round(100*(1 - (x - b4.lo)/(b4.mu - b4.lo)))
-    selected_raw_data = Data(csv(file))
-    data, test_data = split_data(selected_raw_data)
-    b4    = yNums(data.rows, selected_raw_data)
-    unlabeled_y = pd.DataFrame([ydist(row, data) for row in test_data.rows], columns=["d2h"])
+    unlabeled_y = pd.DataFrame([ydist(row, selected_raw_data) for row in test_data.rows], columns=["d2h"])
     return win(sorted(unlabeled_y["d2h"])[picks-1]), win(sorted(unlabeled_y["d2h"])[int(len(test_data.rows)*0.1)])
 
 def reliefff(data, cols):
@@ -425,6 +422,7 @@ def reliefff(data, cols):
     return rlf
     
 def main():
+    random_seed = 42
     dataset = sys.argv[1]
     raw_data = Data(csv(dataset))
     data, test_data = split_data(raw_data)
@@ -445,7 +443,7 @@ def main():
         distribution_plot(model.best.rows + model.rest.rows, data, features, "32")
     
     # Run all explainers
-    bl_FI = run_bl_explainer(data)
+    bl_FI, feature_counts = run_bl_explainer(data)
     #lime_FI = run_lime_explainer(data, test_data, features)
     shap_FI = run_shap_explainer(data, test_data, features)
     rlf_FI = shap_FI
@@ -459,36 +457,67 @@ def main():
     feature_importance.loc[len(feature_importance)] = rlf_FI
     feature_importance.loc[len(feature_importance)-1, "explainer"] = "rlf"
     analyze_feature_importance(feature_importance, features)
-    for regressor in ["bl", "ann","rf", "svr", "lgbm","linear"]:
+
+    repeats = 5
+    top_features = get_features(feature_importance, feature_counts)
+    stats = {}
+    for regressor in ["linear", "bl", "rf", "svr", "ann", "lgbm"]:
         bl_mean, bl_std = [], []
         shap_mean, shap_std = [], []
         rlf_mean, rlf_std = [], []
         t1 = time.time()
-        for k in range(len(features)):
-            print("-------------------  : ", k)
-            top_features = get_features(feature_importance, k+1)
+        optimal, optimal_90 = [], []
+        for _ in range(repeats):
+            random_seed *= 2
             if regressor == "bl":
-                mean, std = exp2(dataset, top_features['BL'] + targets, 15, 5, 32)
+                selected_raw_data = Data(csv(dataset))
+                data, test_data = split_data(selected_raw_data, random_seed)
+                b4    = yNums(data.rows, selected_raw_data)
+                mean, std, counts = exp2(data, test_data, b4, 5, 32)
                 bl_mean.append(mean)
                 bl_std.append(std)
-                mean, std = exp2(dataset, top_features['shap'] + targets, 15, 5, 32)
+
+                top_features_bl = get_features(feature_importance, counts)
+                selected_raw_data = Data(csv2(dataset, top_features_bl['shap'] + targets))
+                data, test_data = split_data(selected_raw_data, random_seed)
+                b4    = yNums(data.rows, selected_raw_data)
+                mean, std = exp2(data, test_data, b4, 5, 32)
                 shap_mean.append(mean)
                 shap_std.append(std)
-                mean, std = exp2(dataset, top_features['rlf'] + targets, 15, 5, 32)
+
+                selected_raw_data = Data(csv2(dataset, top_features_bl['rlf'] + targets))
+                data, test_data = split_data(selected_raw_data, random_seed)
+                b4    = yNums(data.rows, selected_raw_data)
+                mean, std = exp2(data, test_data, b4, 5, 32)
                 rlf_mean.append(mean)
                 rlf_std.append(std)
             else:
-                mean, std = exp1(dataset, top_features['BL'] + targets, 15, regressor, 5, 32)
+                selected_raw_data = Data(csv2(dataset, top_features['BL'] + targets))
+                data, test_data = split_data(selected_raw_data, random_seed)
+                b4    = yNums(data.rows, selected_raw_data)
+                mean, std = exp1(selected_raw_data, data, test_data, b4, regressor, 5, 32)
                 bl_mean.append(mean)
                 bl_std.append(std)
-                mean, std = exp1(dataset, top_features['shap'] + targets, 15, regressor, 5, 32)
+
+                selected_raw_data = Data(csv2(dataset, top_features['shap'] + targets))
+                data, test_data = split_data(selected_raw_data, random_seed)
+                b4    = yNums(data.rows, selected_raw_data)
+                mean, std = exp1(selected_raw_data, data, test_data, b4, regressor, 5, 32)
                 shap_mean.append(mean)
                 shap_std.append(std)
-                mean, std = exp1(dataset, top_features['rlf'] + targets, 15, regressor, 5, 32)
+
+                selected_raw_data = Data(csv2(dataset, top_features['rlf'] + targets))
+                data, test_data = split_data(selected_raw_data, random_seed)
+                b4    = yNums(data.rows, selected_raw_data)
+                mean, std = exp1(selected_raw_data, data, test_data, b4, regressor, 5, 32)
                 rlf_mean.append(mean)
                 rlf_std.append(std)
                 
-        optimal, optimal_90 = find_optimal(dataset, 5)
+            o, o_90 = find_optimal(selected_raw_data, test_data, b4, 5)
+            optimal.append(o)
+            optimal_90.append(o_90)
+        
+
         #print(bl_mean,"\n", shap_mean, optimal)
         # Create the plot
         plt.figure(figsize=(10, 6))
@@ -500,6 +529,7 @@ def main():
         
         plt.errorbar(x, [optimal for _ in range(len(bl_mean))], label = f"Optimal 5/{len(test_data.rows)}", marker='o', capsize=5)
         plt.errorbar(x, [optimal_90 for _ in range(len(bl_mean))], label = f"90% Optimal {int(0.1 * len(test_data.rows))}/{len(test_data.rows)}", marker='o', capsize=5)
+        
         # Customize the plot
         plt.xlabel('# Top Features')
         plt.ylabel('% worst optimal d2hs')
