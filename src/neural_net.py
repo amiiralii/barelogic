@@ -8,21 +8,18 @@ from sklearn.pipeline import Pipeline
 import pandas as pd
 import numpy as np
 from bl import *
+import warnings
 
+# Suppress CUDA warning
+warnings.filterwarnings("ignore", message=".*CUDA initialization.*")
 
-def neural_net(unlabeled, labeled, cols, raw_data, top_pick):
+def neural_net(X_test, y_test, X_train, y_train, cols):
     features = [c for c in cols if c[-1] not in ["+","-", "X"]]
-    target = ["d2h"]
     numerical_cols = [f for f in features if f[0].isupper()]
     categorical_cols = [f for f in features if not f[0].isupper()]
     
-    X_train = pd.DataFrame(labeled, columns=cols)
     X_train.drop([c for c in cols if c[-1] in ["+","-", "X"]], axis=1, inplace=True)
-    y_train = [ydist(row, raw_data) for row in labeled]
-
-    X_test = pd.DataFrame(unlabeled, columns=cols)
     X_test.drop([c for c in cols if c[-1] in ["+","-", "X"]], axis=1, inplace=True)
-    y_test = [ydist(row, raw_data) for row in unlabeled]
 
     # Preprocessing: Encode categorical + scale numerical
     preprocessor = ColumnTransformer([
@@ -35,9 +32,9 @@ def neural_net(unlabeled, labeled, cols, raw_data, top_pick):
 
     # Convert DataFrame to numpy array first
     X_train_tensor = torch.tensor(X_train_processed, dtype=torch.float32)
-    y_train_tensor = torch.tensor(y_train, dtype=torch.float32).view(-1, 1)
+    y_train_tensor = torch.tensor(y_train.values, dtype=torch.float32).view(-1, 1)
     X_test_tensor = torch.tensor(X_test_processed, dtype=torch.float32)
-    y_test_tensor = torch.tensor(y_test, dtype=torch.float32).view(-1, 1)
+    y_test_tensor = torch.tensor(y_test.values, dtype=torch.float32).view(-1, 1)
 
     # Define simple feed-forward neural network
     class SimpleRegressor(nn.Module):

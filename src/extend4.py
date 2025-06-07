@@ -20,7 +20,7 @@ from lightgbm import LGBMRegressor
 from IPython.display import display, HTML
 from neural_net import *
 from relieff import RReliefF
-
+import stats
 
 def split_data(data, r_seed = 42, test_size=0.2):
     # Shuffle the data
@@ -44,7 +44,7 @@ def split_data(data, r_seed = 42, test_size=0.2):
 
 def run_bl_explainer(data):
     """Run BareLogic explainer and return feature importance"""
-    print('-------BL:-------')
+    #print('-------BL:-------')
     the.Stop = 32
     t1 = time.time()
     stts = []
@@ -64,8 +64,9 @@ def run_bl_explainer(data):
     for f in bl_FI:
         bl_FI[f] = bl_FI[f] / w
     bl_FI["explainer"] = "BL"
-    bl_FI["run_time"] = time.time()-t1
-    return bl_FI, count // 15
+    bl_FI["run_time"] = (time.time()-t1) / 15
+    print(f"BL_time, {round(bl_FI['run_time'], 3)}")
+    return bl_FI, round( count / 15 )
 
 def distribution_plot(labeled, data, features, sample):
     cols = [d.txt for d in data.cols.all]
@@ -92,7 +93,7 @@ def distribution_plot(labeled, data, features, sample):
 
 def run_lime_explainer(data, test_data, features, idx=5):
     """Run LIME explainer and return feature importance"""
-    print('-------LIME:-------')
+    #print('-------LIME:-------')
     
     # Prepare data
     labeled = data.rows
@@ -189,7 +190,7 @@ def run_lime_explainer(data, test_data, features, idx=5):
 
 def run_shap_explainer(data, test_data, features, idx=5):
     """Run SHAP explainer and return feature importance"""
-    print('-------SHAP:-------')
+    #print('-------SHAP:-------')
     t1=time.time()
     # Prepare data
     labeled = data.rows
@@ -235,15 +236,15 @@ def run_shap_explainer(data, test_data, features, idx=5):
         shap_FI[k] = v
     
     # Create SHAP plots
-    shap.summary_plot(
-        shap_values,
-        unlabeled_df[features],
-        plot_type="bar",
-        show=False
-    )
-    plt.tight_layout()
-    plt.savefig(f"explanations/{sys.argv[1].split("/")[-1][:-4]}/shap_summary.png", dpi=300, bbox_inches="tight")
-    plt.clf()
+    #shap.summary_plot(
+    #    shap_values,
+    #    unlabeled_df[features],
+    #    plot_type="bar",
+    #    show=False
+    #)
+    #plt.tight_layout()
+    #plt.savefig(f"explanations/{sys.argv[1].split("/")[-1][:-4]}/shap_summary.png", dpi=300, bbox_inches="tight")
+    #plt.clf()
     
     #shap.plots.waterfall(
     #    shap.Explanation(
@@ -256,13 +257,13 @@ def run_shap_explainer(data, test_data, features, idx=5):
     #plt.tight_layout()
     #plt.savefig(f"explanations/{sys.argv[1].split("/")[-1][:-4]}/shap_waterfall_{idx}.png", dpi=300, bbox_inches="tight")
     #plt.clf()
-    
+    print(f"shap_time, {round(shap_FI['run_time'], 3)}")
     return shap_FI
 
 def analyze_feature_importance(feature_importance, features):
     """Analyze and visualize feature importance across explainers"""
-    print("-----Feature Importance:-----")
-    print(feature_importance)
+    #print("-----Feature Importance:-----")
+    #print(feature_importance)
     plt.figure(figsize=(15, 8))
     barWidth = 0.25
     r1 = np.arange(len(features))
@@ -273,18 +274,18 @@ def analyze_feature_importance(feature_importance, features):
     for i, explainer in enumerate(explainers):
         data = feature_importance[feature_importance['explainer'] == explainer]
         values = data[features].values[0]
-        plt.bar([r1, r2, r3][i], values, width=barWidth, label=f"{explainer} ({round(data['run_time'].values[0],3)} s)")
+    #    plt.bar([r1, r2, r3][i], values, width=barWidth, label=f"{explainer} ({round(data['run_time'].values[0],3)} s)")
     
-    plt.xlabel('Features', fontweight='bold')
-    plt.ylabel('Feature Importance', fontweight='bold')
-    plt.title('Feature Importance Comparison Across Different Explainers (Total Time)')
-    plt.xticks([r + barWidth for r in range(len(features))], features, rotation=45, ha='right')
-    plt.ylim([0.0, 1.0])
-    plt.legend()
-    plt.grid(True, linestyle='--', alpha=0.7, axis='y')
-    plt.tight_layout()
-    plt.savefig(f'explanations/{sys.argv[1].split("/")[-1][:-4]}/feature_importance_comparison.png', dpi=300, bbox_inches='tight')
-    plt.close()
+    #plt.xlabel('Features', fontweight='bold')
+    #plt.ylabel('Feature Importance', fontweight='bold')
+    #plt.title('Feature Importance Comparison Across Different Explainers (Total Time)')
+    #plt.xticks([r + barWidth for r in range(len(features))], features, rotation=45, ha='right')
+    #plt.ylim([0.0, 1.0])
+    #plt.legend()
+    #plt.grid(True, linestyle='--', alpha=0.7, axis='y')
+    #plt.tight_layout()
+    #plt.savefig(f'explanations/{sys.argv[1].split("/")[-1][:-4]}/feature_importance_comparison.png', dpi=300, bbox_inches='tight')
+    #plt.close()
 
 def get_features(feature_importance, k):
     #print("\nTop half features for each explainer:")
@@ -351,7 +352,7 @@ def regression(labeled_df, unlabeled_df, labeled_y, unlabeled_y, cols, regressor
         svr.fit(labeled_df[features], labeled_y.values.ravel())
         predict = svr.predict(unlabeled_df[features])
     elif regressor == "ann":
-        predict = neural_net(unlabeled, labeled, cols, data, top_pick)
+        predict = neural_net(unlabeled_df, unlabeled_y, labeled_df, labeled_y, cols)
 
     top_idx = np.argsort(predict)[:top_pick]
     #print("features:", features)
@@ -364,7 +365,6 @@ def regression(labeled_df, unlabeled_df, labeled_y, unlabeled_y, cols, regressor
 def exp1(selected_raw_data, data, test_data, b4, regressor, top_pick = 5, stop = 32):
     def win(x): return round(100*(1 - (x - b4.lo)/(b4.mu - b4.lo)))
     the.Stop = stop
-    stats = []
     labeled = data.rows
     unlabeled = test_data.rows
     cols = [d.txt for d in data.cols.all]
@@ -373,21 +373,19 @@ def exp1(selected_raw_data, data, test_data, b4, regressor, top_pick = 5, stop =
     labeled_y = pd.DataFrame([ydist(row, data) for row in labeled], columns=["d2h"])
     unlabeled_y = pd.DataFrame([ydist(row, selected_raw_data) for row in unlabeled], columns=["d2h"])
 
-    stats.append( win( regression(labeled_df, unlabeled_df, labeled_y, unlabeled_y, cols, regressor, top_pick) ) )
-    return np.mean(stats), np.std(stats)
+    return win( regression(labeled_df, unlabeled_df, labeled_y, unlabeled_y, cols, regressor, top_pick) )
 
 def exp2(selected_raw_data, data, test_data, b4, top_pick = 5, stop = 32):
     def win(x): return round(100*(1 - (x - b4.lo)/(b4.mu - b4.lo)))
     the.Stop = stop
-    stats = []
     unlabeled_y = pd.DataFrame([ydist(row, selected_raw_data) for row in test_data.rows], columns=["d2h"])
     model = actLearn(data,shuffle=False)
     nodes = tree(model.best.rows + model.rest.rows,data)
     guesses = sorted([(leaf(nodes,row).ys, i) for i, row in enumerate(test_data.rows)],key=first)
-    stats.append( win(sorted([unlabeled_y.iloc[i].values for _, i in guesses[:top_pick]])[-1][0]) )
+    acc = win(sorted([unlabeled_y.iloc[i].values for _, i in guesses[:top_pick]])[-1][0])
 
     vals = treeFeatureImportance(nodes)
-    return np.mean(stats), np.std(stats), len([i for i in vals.values() if i > 0])
+    return acc, len([i for i in vals.values() if i > 0])
 
 def find_optimal(selected_raw_data, test_data, b4, picks):
     def win(x): return round(100*(1 - (x - b4.lo)/(b4.mu - b4.lo)))
@@ -395,7 +393,7 @@ def find_optimal(selected_raw_data, test_data, b4, picks):
     return win(sorted(unlabeled_y["d2h"])[picks-1]), win(sorted(unlabeled_y["d2h"])[int(len(test_data.rows)*0.1)])
 
 def reliefff(data, cols):
-    print('-------ReliefF:-------')
+    #print('-------ReliefF:-------')
     t1 = time.time()
     numerical_cols = [f for f in cols if (f[0].isupper() and f[-1] not in ["+","-", "X"])]
     categorical_cols = [f for f in cols if (not f[0].isupper() and f[-1] not in [["+","-", "X"]])]
@@ -418,7 +416,7 @@ def reliefff(data, cols):
     rlf = {"explainer":"rlf", "run_time":time.time()-t1}
     for f, v in zip(features, weights):
         rlf[f] = v / w
-    
+    print(f"rlf_time, {round(rlf['run_time'], 3)}")
     return rlf
     
 def main():
@@ -427,28 +425,29 @@ def main():
     raw_data = Data(csv(dataset))
     data, test_data = split_data(raw_data)
 
-    try:
-        os.makedirs(f"explanations/{dataset.split("/")[-1][:-4]}", exist_ok=True)
-        print(f"Directory created successfully")
-    except Exception as e:
-        print(f"Error creating directory: {e}")
+    #try:
+    #    os.makedirs(f"explanations/{dataset.split("/")[-1][:-4]}", exist_ok=True)
+    #    print(f"Directory created successfully")
+    #except Exception as e:
+    #    print(f"Error creating directory: {e}")
     
     cols = [d.txt for d in data.cols.all]
     targets = [c for c in cols if c[-1] in ["+", "-"]]
     features = [c for c in cols if c[-1] not in ["+", "-", "X"]]
     
-    if len(features) < 15:
-        distribution_plot(data.rows, data, features, "all")
-        model = actLearn(data)
-        distribution_plot(model.best.rows + model.rest.rows, data, features, "32")
+    #if len(features) < 15:
+    #    distribution_plot(data.rows, data, features, "all")
+    #    model = actLearn(data)
+    #    distribution_plot(model.best.rows + model.rest.rows, data, features, "32")
     
     # Run all explainers
     bl_FI, feature_counts = run_bl_explainer(data)
     #lime_FI = run_lime_explainer(data, test_data, features)
     shap_FI = run_shap_explainer(data, test_data, features)
-    rlf_FI = shap_FI
-    #rlf_FI = reliefff(data, cols)
+    rlf_FI = reliefff(data, cols)
     
+    print(f"Number of features selected by BL, {feature_counts}")
+
     # Combine results
     feature_importance = pd.DataFrame(columns=["explainer", "run_time"] + features)
     feature_importance.loc[len(feature_importance)] = bl_FI
@@ -458,13 +457,12 @@ def main():
     feature_importance.loc[len(feature_importance)-1, "explainer"] = "rlf"
     analyze_feature_importance(feature_importance, features)
 
+
     repeats = 5
     top_features = get_features(feature_importance, feature_counts)
-    stats = {}
-    for regressor in ["linear", "bl", "rf", "svr", "ann", "lgbm"]:
-        bl_mean, bl_std = [], []
-        shap_mean, shap_std = [], []
-        rlf_mean, rlf_std = [], []
+    records = []
+    for regressor in ["linear", "rf", "svr", "ann", "lgbm", "bl"]:
+        bl, shap, rlf = [], [], []
         t1 = time.time()
         optimal, optimal_90 = [], []
         for _ in range(repeats):
@@ -473,76 +471,76 @@ def main():
                 selected_raw_data = Data(csv(dataset))
                 data, test_data = split_data(selected_raw_data, random_seed)
                 b4    = yNums(data.rows, selected_raw_data)
-                mean, std, counts = exp2(data, test_data, b4, 5, 32)
-                bl_mean.append(mean)
-                bl_std.append(std)
+                acc, counts = exp2(selected_raw_data, data, test_data, b4, 5, 32)
+                bl.append(acc)
 
                 top_features_bl = get_features(feature_importance, counts)
                 selected_raw_data = Data(csv2(dataset, top_features_bl['shap'] + targets))
                 data, test_data = split_data(selected_raw_data, random_seed)
                 b4    = yNums(data.rows, selected_raw_data)
-                mean, std = exp2(data, test_data, b4, 5, 32)
-                shap_mean.append(mean)
-                shap_std.append(std)
+                acc, _ = exp2(selected_raw_data, data, test_data, b4, 5, 32)
+                shap.append(acc)
 
                 selected_raw_data = Data(csv2(dataset, top_features_bl['rlf'] + targets))
                 data, test_data = split_data(selected_raw_data, random_seed)
                 b4    = yNums(data.rows, selected_raw_data)
-                mean, std = exp2(data, test_data, b4, 5, 32)
-                rlf_mean.append(mean)
-                rlf_std.append(std)
+                acc, _ = exp2(selected_raw_data, data, test_data, b4, 5, 32)
+                rlf.append(acc)
             else:
                 selected_raw_data = Data(csv2(dataset, top_features['BL'] + targets))
                 data, test_data = split_data(selected_raw_data, random_seed)
                 b4    = yNums(data.rows, selected_raw_data)
-                mean, std = exp1(selected_raw_data, data, test_data, b4, regressor, 5, 32)
-                bl_mean.append(mean)
-                bl_std.append(std)
+                bl.append( exp1(selected_raw_data, data, test_data, b4, regressor, 5, 32) )
 
                 selected_raw_data = Data(csv2(dataset, top_features['shap'] + targets))
                 data, test_data = split_data(selected_raw_data, random_seed)
                 b4    = yNums(data.rows, selected_raw_data)
-                mean, std = exp1(selected_raw_data, data, test_data, b4, regressor, 5, 32)
-                shap_mean.append(mean)
-                shap_std.append(std)
+                shap.append( exp1(selected_raw_data, data, test_data, b4, regressor, 5, 32) )
 
                 selected_raw_data = Data(csv2(dataset, top_features['rlf'] + targets))
                 data, test_data = split_data(selected_raw_data, random_seed)
                 b4    = yNums(data.rows, selected_raw_data)
-                mean, std = exp1(selected_raw_data, data, test_data, b4, regressor, 5, 32)
-                rlf_mean.append(mean)
-                rlf_std.append(std)
-                
+                rlf.append( exp1(selected_raw_data, data, test_data, b4, regressor, 5, 32) )
             o, o_90 = find_optimal(selected_raw_data, test_data, b4, 5)
             optimal.append(o)
             optimal_90.append(o_90)
         
+        print(f"{regressor} time, {round(time.time()-t1, 3)}")
+        bl_acc, shap_acc, rlf_acc = stats.SOME(txt=f"{regressor},BL"), stats.SOME(txt=f"{regressor},SHAP"), stats.SOME(txt=f"{regressor},RLF")
+        bl_acc.adds(bl)
+        shap_acc.adds(shap)
+        rlf_acc.adds(rlf)
+
+        records.append(bl_acc)
+        records.append(shap_acc)
+        records.append(rlf_acc)
+    stats.report(records)        
 
         #print(bl_mean,"\n", shap_mean, optimal)
         # Create the plot
-        plt.figure(figsize=(10, 6))
-        x = range(1, len(features)+1)
-        plt.errorbar(x, bl_mean, yerr=bl_std, label=f'BL', marker='o', capsize=5)
-        plt.errorbar([xx+0.01 for xx in x], shap_mean, yerr=shap_std, label=f'SHAP', marker='s', capsize=5)
-        plt.errorbar([xx+0.02 for xx in x], rlf_mean, yerr=rlf_std, label=f'ReliefF', marker='s', capsize=5)
-
-        
-        plt.errorbar(x, [optimal for _ in range(len(bl_mean))], label = f"Optimal 5/{len(test_data.rows)}", marker='o', capsize=5)
-        plt.errorbar(x, [optimal_90 for _ in range(len(bl_mean))], label = f"90% Optimal {int(0.1 * len(test_data.rows))}/{len(test_data.rows)}", marker='o', capsize=5)
-        
-        # Customize the plot
-        plt.xlabel('# Top Features')
-        plt.ylabel('% worst optimal d2hs')
-        plt.title(f'Performance Comparison (regresssion: {regressor}, {(time.time()-t1)//1}s)')
-        plt.grid(True, linestyle='--', alpha=0.7)
-        plt.legend()
-        plt.ylim(-100, 100)
-        plt.xticks(range(1, len(features)+1))
-        
-        # Save the plot
-        plt.savefig(f'explanations/{dataset.split("/")[-1][:-4]}/{regressor}.png', dpi=300, bbox_inches='tight')
-        plt.close()
-        print(f"Done with {regressor}.")
+        #plt.figure(figsize=(10, 6))
+        #x = range(1, len(features)+1)
+        #plt.errorbar(x, bl_mean, yerr=bl_std, label=f'BL', marker='o', capsize=5)
+        #plt.errorbar([xx+0.01 for xx in x], shap_mean, yerr=shap_std, label=f'SHAP', marker='s', capsize=5)
+        #plt.errorbar([xx+0.02 for xx in x], rlf_mean, yerr=rlf_std, label=f'ReliefF', marker='s', capsize=5)
+#
+        #
+        #plt.errorbar(x, [optimal for _ in range(len(bl_mean))], label = f"Optimal 5/{len(test_data.rows)}", marker='o', capsize=5)
+        #plt.errorbar(x, [optimal_90 for _ in range(len(bl_mean))], label = f"90% Optimal {int(0.1 * len(test_data.rows))}/{len(test_data.rows)}", marker='o', capsize=5)
+        #
+        ## Customize the plot
+        #plt.xlabel('# Top Features')
+        #plt.ylabel('% worst optimal d2hs')
+        #plt.title(f'Performance Comparison (regresssion: {regressor}, {(time.time()-t1)//1}s)')
+        #plt.grid(True, linestyle='--', alpha=0.7)
+        #plt.legend()
+        #plt.ylim(-100, 100)
+        #plt.xticks(range(1, len(features)+1))
+        #
+        ## Save the plot
+        #plt.savefig(f'explanations/{dataset.split("/")[-1][:-4]}/{regressor}.png', dpi=300, bbox_inches='tight')
+        #plt.close()
+        #print(f"Done with {regressor}.")
 
 if __name__ == "__main__":
     main()
