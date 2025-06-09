@@ -458,7 +458,7 @@ def main():
     analyze_feature_importance(feature_importance, features)
 
 
-    repeats = 5
+    repeats = 20
     top_features = get_features(feature_importance, feature_counts)
     records = []
     for regressor in ["linear", "rf", "svr", "ann", "lgbm", "bl"]:

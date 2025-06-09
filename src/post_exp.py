@@ -1,60 +1,51 @@
 import os
 import csv
 from pathlib import Path
+import pandas as pd
 
 def process_csv_file(file_path):
-    """
-    Process a single CSV file and return a dictionary where:
-    - Keys are the first word of each line
-    - Values are lists containing the rest of the words in the line
-    - Lines containing only '#' are ignored
-    """
-    result_dict = {}
-    
+    results = []
     with open(file_path, 'r') as f:
         for line in f:
-            # Skip empty lines and lines containing only '#'
             line = line.strip()
             if not line or line == '#':
                 continue
-                
-            # Split the line into words
             words = line.split(",")
-            if words:  # Make sure we have at least one word
-                key = words[0]
-                values = words[1:]  # All words after the first one
-                result_dict[key] = values
-    for i in result_dict:
-        print(i, result_dict[i])
-    return result_dict
+            if len(words) > 2:
+                treatment = {}
+                treatment['rank'] = words[0]
+                treatment['trt'] = words[2].strip() + "_" + words[1].strip()
+                treatment['mean'] = words[3]
+                results.append(treatment)
+    return results
 
 def analyze_results():
-    """
-    Analyze all CSV files in the results directory
-    """
     results_dir = Path('results')
-    
-    # Check if results directory exists
     if not results_dir.exists():
         print(f"Warning: {results_dir} directory does not exist")
         return {}
-    
-    # Dictionary to store results from all files
-    all_results = {}
-    
-    # Process each CSV file in the results directory
+    cols = []
+    for feature_selection in [ "RLF", "SHAP", "BL"]:
+        for regressor in ["linear", "rf", "svr", "ann", "lgbm", "bl"]:
+            cols.append(f"{feature_selection}_{regressor}")
+    cols.append('data')
+    results_df = pd.DataFrame(columns=cols)
+    colors_df = pd.DataFrame(columns=cols)
     for file_path in results_dir.glob('*.csv'):
-        print(f"Processing file: {file_path}")
-        file_results = process_csv_file(file_path)
-        all_results[file_path.name] = file_results
-        input()
-    return all_results
+        res = process_csv_file(file_path)
+        new_row = {}
+        color_row = {}
+        for i in res:
+            new_row[i['trt']] = i['mean']
+            color_row[i['trt']] = i['rank']
+        new_row['data'] = file_path.name.split('/')[-1].split('.')[0]
+        color_row['data'] = file_path.name.split('/')[-1].split('.')[0]
+        results_df.loc[len(results_df)] = new_row
+        colors_df.loc[len(colors_df)] = color_row
+    return results_df, colors_df
 
 if __name__ == "__main__":
-    results = analyze_results()
+    results, colors = analyze_results()
+    results.to_csv('results.csv', index=False)
+    colors.to_csv('colors.csv', index=False)
     
-    # Print results for verification
-    for filename, file_data in results.items():
-        print(f"\nResults from {filename}:")
-        for key, values in file_data.items():
-            print(f"{key}: {values}") 
