@@ -25,7 +25,7 @@ def neural_net(X_test, y_test, X_train, y_train, cols):
     preprocessor = ColumnTransformer([
         ('num', StandardScaler(), numerical_cols),
         ('cat', OneHotEncoder(handle_unknown='ignore'), categorical_cols)
-    ])
+    ], sparse_threshold=0)
     X_train_processed = preprocessor.fit_transform(X_train)
     X_test_processed = preprocessor.transform(X_test)
 

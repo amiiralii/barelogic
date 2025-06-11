@@ -199,6 +199,19 @@ def run_shap_explainer(data, test_data, features, idx=5):
     
     labeled_df = pd.DataFrame(labeled, columns=cols)
     unlabeled_df = pd.DataFrame(unlabeled, columns=cols)
+
+    # Preprocess data
+    le = LabelEncoder()
+    for c in cols:
+        if c[0].isupper():
+            labeled_df[c] = pd.to_numeric(labeled_df[c], errors='coerce')
+            unlabeled_df[c] = pd.to_numeric(unlabeled_df[c], errors='coerce')
+        else:
+            labeled_df[c] = labeled_df[c].astype('category')
+            labeled_df[c] = le.fit_transform(labeled_df[c])
+            unlabeled_df[c] = unlabeled_df[c].astype('category')
+            unlabeled_df[c] = le.fit_transform(unlabeled_df[c])
+    
     
     # Train LGBM model
     model = LGBMRegressor(
@@ -360,11 +373,10 @@ def regression(labeled_df, unlabeled_df, labeled_y, unlabeled_y, cols, regressor
     #    print(predict[i], unlabeled_y.iloc[i].values)
     #print(sorted([unlabeled_y.iloc[i].values for i in top_idx]))
     #input()
-    return sorted([unlabeled_y.iloc[i].values for i in top_idx])[-1][0] ## Returning d2h of worst point
+    return sorted([unlabeled_y.iloc[i].values for i in top_idx])[0][0]
 
-def exp1(selected_raw_data, data, test_data, b4, regressor, top_pick = 5, stop = 32):
+def exp1(selected_raw_data, data, test_data, b4, regressor, top_pick = 5):
     def win(x): return round(100*(1 - (x - b4.lo)/(b4.mu - b4.lo)))
-    the.Stop = stop
     labeled = data.rows
     unlabeled = test_data.rows
     cols = [d.txt for d in data.cols.all]
@@ -382,8 +394,7 @@ def exp2(selected_raw_data, data, test_data, b4, top_pick = 5, stop = 32):
     model = actLearn(data,shuffle=False)
     nodes = tree(model.best.rows + model.rest.rows,data)
     guesses = sorted([(leaf(nodes,row).ys, i) for i, row in enumerate(test_data.rows)],key=first)
-    acc = win(sorted([unlabeled_y.iloc[i].values for _, i in guesses[:top_pick]])[-1][0])
-
+    acc = win(sorted([unlabeled_y.iloc[i].values for _, i in guesses[:top_pick]])[0][0])
     vals = treeFeatureImportance(nodes)
     return acc, len([i for i in vals.values() if i > 0])
 
@@ -395,14 +406,18 @@ def find_optimal(selected_raw_data, test_data, b4, picks):
 def reliefff(data, cols):
     #print('-------ReliefF:-------')
     t1 = time.time()
-    numerical_cols = [f for f in cols if (f[0].isupper() and f[-1] not in ["+","-", "X"])]
-    categorical_cols = [f for f in cols if (not f[0].isupper() and f[-1] not in [["+","-", "X"]])]
     X_train = pd.DataFrame(data.rows, columns=cols)
     X_train.drop([c for c in cols if c[-1] in ["+","-", "X"]], axis=1, inplace=True)
+    
+    # Get columns after dropping
+    remaining_cols = X_train.columns.tolist()
+    numerical_cols = [f for f in remaining_cols if f[0].isupper()]
+    categorical_cols = [f for f in remaining_cols if not f[0].isupper()]
+    
     preprocessor = ColumnTransformer(transformers=[
         ('num', StandardScaler(), numerical_cols),
         ('cat', OrdinalEncoder(), categorical_cols)
-    ])
+    ], sparse_threshold=0)
     X_preprocessed = preprocessor.fit_transform(X_train)
     feature_names = preprocessor.get_feature_names_out()
     if len(data.rows) < 5000: sample_size = len(data.rows)
@@ -413,6 +428,10 @@ def reliefff(data, cols):
     features = [c for c in cols if c[-1] not in ["+", "-", "X"]]
     weights = [f[0] if f > 0 else 0 for f in relief]
     w = sum(weights)
+    if w == 0: 
+        tmp = min(relief)
+        weights = [f[0] + tmp for f in relief]
+        w = sum(weights)
     rlf = {"explainer":"rlf", "run_time":time.time()-t1}
     for f, v in zip(features, weights):
         rlf[f] = v / w
@@ -461,59 +480,69 @@ def main():
     repeats = 20
     top_features = get_features(feature_importance, feature_counts)
     records = []
-    for regressor in ["linear", "rf", "svr", "ann", "lgbm", "bl"]:
+    for regressor in ["linear", "rf", "svr", "ann", "lgbm", "bl", "asIs"]:
         bl, shap, rlf = [], [], []
+        asIs = []
         t1 = time.time()
-        optimal, optimal_90 = [], []
+        #optimal, optimal_90 = [], []
         for _ in range(repeats):
             random_seed *= 2
-            if regressor == "bl":
+            if regressor == "asIs":
+                b4    = yNums(data.rows, selected_raw_data)
+                tmp = round(100*(1 - (ydist(random.choice(test_data.rows), data) - b4.lo)/(b4.mu - b4.lo))) 
+                asIs.append( tmp )
+            elif regressor == "bl":
                 selected_raw_data = Data(csv(dataset))
                 data, test_data = split_data(selected_raw_data, random_seed)
                 b4    = yNums(data.rows, selected_raw_data)
-                acc, counts = exp2(selected_raw_data, data, test_data, b4, 5, 32)
+                acc, counts = exp2(selected_raw_data, data, test_data, b4, 10, 50)
                 bl.append(acc)
 
                 top_features_bl = get_features(feature_importance, counts)
                 selected_raw_data = Data(csv2(dataset, top_features_bl['shap'] + targets))
                 data, test_data = split_data(selected_raw_data, random_seed)
                 b4    = yNums(data.rows, selected_raw_data)
-                acc, _ = exp2(selected_raw_data, data, test_data, b4, 5, 32)
+                acc, _ = exp2(selected_raw_data, data, test_data, b4, 10, 50)
                 shap.append(acc)
 
                 selected_raw_data = Data(csv2(dataset, top_features_bl['rlf'] + targets))
                 data, test_data = split_data(selected_raw_data, random_seed)
                 b4    = yNums(data.rows, selected_raw_data)
-                acc, _ = exp2(selected_raw_data, data, test_data, b4, 5, 32)
+                acc, _ = exp2(selected_raw_data, data, test_data, b4, 10, 50)
                 rlf.append(acc)
             else:
                 selected_raw_data = Data(csv2(dataset, top_features['BL'] + targets))
                 data, test_data = split_data(selected_raw_data, random_seed)
                 b4    = yNums(data.rows, selected_raw_data)
-                bl.append( exp1(selected_raw_data, data, test_data, b4, regressor, 5, 32) )
+                bl.append( exp1(selected_raw_data, data, test_data, b4, regressor, 10) )
 
                 selected_raw_data = Data(csv2(dataset, top_features['shap'] + targets))
                 data, test_data = split_data(selected_raw_data, random_seed)
                 b4    = yNums(data.rows, selected_raw_data)
-                shap.append( exp1(selected_raw_data, data, test_data, b4, regressor, 5, 32) )
+                shap.append( exp1(selected_raw_data, data, test_data, b4, regressor, 10) )
 
                 selected_raw_data = Data(csv2(dataset, top_features['rlf'] + targets))
                 data, test_data = split_data(selected_raw_data, random_seed)
                 b4    = yNums(data.rows, selected_raw_data)
-                rlf.append( exp1(selected_raw_data, data, test_data, b4, regressor, 5, 32) )
-            o, o_90 = find_optimal(selected_raw_data, test_data, b4, 5)
-            optimal.append(o)
-            optimal_90.append(o_90)
+                rlf.append( exp1(selected_raw_data, data, test_data, b4, regressor, 10) )
+            #o, o_90 = find_optimal(selected_raw_data, test_data, b4, 5)
+            #optimal.append(o)
+            #optimal_90.append(o_90)
         
         print(f"{regressor} time, {round(time.time()-t1, 3)}")
-        bl_acc, shap_acc, rlf_acc = stats.SOME(txt=f"{regressor},BL"), stats.SOME(txt=f"{regressor},SHAP"), stats.SOME(txt=f"{regressor},RLF")
-        bl_acc.adds(bl)
-        shap_acc.adds(shap)
-        rlf_acc.adds(rlf)
+        if regressor == "asIs":
+            asIs_acc = stats.SOME(txt=f"asIs")
+            asIs_acc.adds(asIs)
+            records.append(asIs_acc)
+        else:
+            bl_acc, shap_acc, rlf_acc = stats.SOME(txt=f"{regressor},BL"), stats.SOME(txt=f"{regressor},SHAP"), stats.SOME(txt=f"{regressor},RLF")
+            bl_acc.adds(bl)
+            shap_acc.adds(shap)
+            rlf_acc.adds(rlf)
+            records.append(bl_acc)
+            records.append(shap_acc)
+            records.append(rlf_acc)
 
-        records.append(bl_acc)
-        records.append(shap_acc)
-        records.append(rlf_acc)
     stats.report(records)        
 
         #print(bl_mean,"\n", shap_mean, optimal)
