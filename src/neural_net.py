@@ -29,8 +29,7 @@ def neural_net(X_test, y_test, X_train, y_train, cols):
     X_train_processed = preprocessor.fit_transform(X_train)
     X_test_processed = preprocessor.transform(X_test)
 
-
-    # Convert DataFrame to numpy array first
+    # Convert DataFrame to numpy array first and move to GPU if available
     X_train_tensor = torch.tensor(X_train_processed, dtype=torch.float32)
     y_train_tensor = torch.tensor(y_train.values, dtype=torch.float32).view(-1, 1)
     X_test_tensor = torch.tensor(X_test_processed, dtype=torch.float32)
@@ -51,7 +50,7 @@ def neural_net(X_test, y_test, X_train, y_train, cols):
         def forward(self, x):
             return self.model(x)
 
-    # Instantiate model
+    # Instantiate model and move to GPU if available
     model = SimpleRegressor(input_dim=X_train_tensor.shape[1])
     criterion = nn.MSELoss()
     optimizer = optim.Adam(model.parameters(), lr=0.001)
@@ -69,5 +68,5 @@ def neural_net(X_test, y_test, X_train, y_train, cols):
 
     model.eval()
     with torch.no_grad():
-        test_preds = [t[0] for t in model(X_test_tensor).tolist()]
+        test_preds = [t[0] for t in model(X_test_tensor).cpu().tolist()]
         return test_preds

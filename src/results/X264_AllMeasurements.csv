@@ -1,0 +1,33 @@
+BL_time, 0.052
+shap_time, 0.048
+rlf_time, 8.103
+Number of features selected by BL, 6
+linear time, 3.496
+rf time, 8.014
+svr time, 4.154
+ann time, 15.561
+lgbm time, 4.795
+bl time, 5.625
+asIs time, 0.034
+#
+ 0,                      asIs, 39.00, 106.00,             --------|         *      -  
+#
+ 1,                   ann,RLF, 99.00,  1.00,                     |                  *
+ 1,                    bl,RLF, 99.00,  1.00,                     |                 -*
+#
+ 2,                 linear,BL, 100.00,  0.00,                     |                  *
+ 2,               linear,SHAP, 100.00,  1.00,                     |                  *
+ 2,                linear,RLF, 100.00,  1.00,                     |                  *
+ 2,                     rf,BL, 100.00,  0.00,                     |                  *
+ 2,                   rf,SHAP, 100.00,  0.00,                     |                  *
+ 2,                    rf,RLF, 100.00,  1.00,                     |                  *
+ 2,                    svr,BL, 100.00,  1.00,                     |                  *
+ 2,                  svr,SHAP, 100.00,  0.00,                     |                  *
+ 2,                   svr,RLF, 100.00,  0.00,                     |                  *
+ 2,                    ann,BL, 100.00,  0.00,                     |                  *
+ 2,                  ann,SHAP, 100.00,  1.00,                     |                  *
+ 2,                   lgbm,BL, 100.00,  0.00,                     |                  *
+ 2,                 lgbm,SHAP, 100.00,  0.00,                     |                  *
+ 2,                  lgbm,RLF, 100.00,  1.00,                     |                  *
+ 2,                     bl,BL, 100.00,  0.00,                     |                  *
+ 2,                   bl,SHAP, 100.00,  1.00,                     |                  *

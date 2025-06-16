@@ -347,7 +347,7 @@ def regression(labeled_df, unlabeled_df, labeled_y, unlabeled_y, cols, regressor
         'learning_rate': 0.1,       # Learning rate
         'num_leaves': 31,           # Number of leaves in one tree
         'min_data_in_leaf': 1,     # Minimum number of data in a leaf
-        'verbose': -1               # Suppress warning messages
+        'verbose': -1              # Suppress warning messages
         }
         train_data = lgb.Dataset(labeled_df[features], label=labeled_y)
         gbm = lgb.train(params, train_data, num_boost_round=100)
