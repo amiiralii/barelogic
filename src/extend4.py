@@ -21,6 +21,9 @@ from IPython.display import display, HTML
 from neural_net import *
 from relieff import RReliefF
 import stats
+import statsmodels.api as sm
+from statsmodels.formula.api import ols
+
 
 def split_data(data, r_seed = 42, test_size=0.2):
     # Shuffle the data
@@ -65,7 +68,6 @@ def run_bl_explainer(data):
         bl_FI[f] = bl_FI[f] / w
     bl_FI["explainer"] = "BL"
     bl_FI["run_time"] = (time.time()-t1) / 15
-    print(f"BL_time, {round(bl_FI['run_time'], 3)}")
     return bl_FI, round( count / 15 )
 
 def distribution_plot(labeled, data, features, sample):
@@ -188,6 +190,34 @@ def run_lime_explainer(data, test_data, features, idx=5):
     
     return lime_FI
 
+def run_anova_explainer(data, features):
+    """Run ANOVA explainer and return feature importance"""
+    labeled = data.rows
+    cols = [d.txt for d in data.cols.all]
+    labeled_df = pd.DataFrame(labeled, columns=cols)
+    for c in cols:
+        if c not in features: labeled_df.drop(c, axis=1, inplace=True) 
+    labeled_df['d2h'] = pd.DataFrame([ydist(row, data) for row in labeled], columns=["d2h"])
+
+    t1 = time.time()
+
+    # Fit a regression model using all features
+    formula = 'd2h' + ' ~ ' + ' + '.join(features)
+    reg = ols(formula, data=labeled_df).fit()
+
+    # Perform Type II ANOVA
+    aov_table = sm.stats.anova_lm(reg, typ=2)
+    aov_table.sort_values(by='sum_sq', ascending=False, inplace=True)
+    aov_table['importance'] = aov_table['sum_sq'] / aov_table['sum_sq'].sum()
+    aov_table.drop('Residual', errors='ignore', inplace=True)
+
+    anova_FI = {}
+    for index, row in aov_table.iterrows():
+        anova_FI[index] = row['importance']
+    anova_FI["explainer"] = "anova"
+    anova_FI["run_time"] = (time.time()-t1) / 15
+    return anova_FI
+
 def run_shap_explainer(data, test_data, features, idx=5):
     """Run SHAP explainer and return feature importance"""
     #print('-------SHAP:-------')
@@ -203,7 +233,8 @@ def run_shap_explainer(data, test_data, features, idx=5):
     # Preprocess data
     le = LabelEncoder()
     for c in cols:
-        if c[0].isupper():
+        if c not in features: labeled_df.drop(c, axis=1, inplace=True) 
+        elif c[0].isupper():
             labeled_df[c] = pd.to_numeric(labeled_df[c], errors='coerce')
             unlabeled_df[c] = pd.to_numeric(unlabeled_df[c], errors='coerce')
         else:
@@ -270,7 +301,6 @@ def run_shap_explainer(data, test_data, features, idx=5):
     #plt.tight_layout()
     #plt.savefig(f"explanations/{sys.argv[1].split("/")[-1][:-4]}/shap_waterfall_{idx}.png", dpi=300, bbox_inches="tight")
     #plt.clf()
-    print(f"shap_time, {round(shap_FI['run_time'], 3)}")
     return shap_FI
 
 def analyze_feature_importance(feature_importance, features):
@@ -306,8 +336,8 @@ def get_features(feature_importance, k):
     for _, row in feature_importance.iterrows():
         explainer = row['explainer']
         feature_values = pd.to_numeric(row.drop(['explainer','run_time']), errors='coerce')
-        top_2 = feature_values.nlargest(k)
-        top_features[explainer] = [i for i in top_2.index]
+        top_k = feature_values.nlargest(k)
+        top_features[explainer] = [i for i in top_k.index]
     return top_features
 
 def coerce2(s,cols):
@@ -389,8 +419,8 @@ def exp1(selected_raw_data, data, test_data, b4, regressor, top_pick = 5):
 
 def exp2(selected_raw_data, data, test_data, b4, top_pick = 5, stop = 32):
     def win(x): return round(100*(1 - (x - b4.lo)/(b4.mu - b4.lo)))
-    the.Stop = stop
     unlabeled_y = pd.DataFrame([ydist(row, selected_raw_data) for row in test_data.rows], columns=["d2h"])
+    the.Stop = stop
     model = actLearn(data,shuffle=False)
     nodes = tree(model.best.rows + model.rest.rows,data)
     guesses = sorted([(leaf(nodes,row).ys, i) for i, row in enumerate(test_data.rows)],key=first)
@@ -435,7 +465,6 @@ def reliefff(data, cols):
     rlf = {"explainer":"rlf", "run_time":time.time()-t1}
     for f, v in zip(features, weights):
         rlf[f] = v / w
-    print(f"rlf_time, {round(rlf['run_time'], 3)}")
     return rlf
     
 def main():
@@ -462,9 +491,14 @@ def main():
     # Run all explainers
     bl_FI, feature_counts = run_bl_explainer(data)
     #lime_FI = run_lime_explainer(data, test_data, features)
+    anova_FI = run_anova_explainer(data, features)
     shap_FI = run_shap_explainer(data, test_data, features)
     rlf_FI = reliefff(data, cols)
     
+    for fi in [bl_FI, anova_FI, shap_FI, rlf_FI]:
+        print(f"{fi['explainer']} time,\t{round(fi['run_time'], 3)}")
+
+    print("---------------------")
     print(f"Number of features selected by BL, {feature_counts}")
 
     # Combine results
@@ -472,20 +506,24 @@ def main():
     feature_importance.loc[len(feature_importance)] = bl_FI
     #feature_importance.loc[len(feature_importance)] = lime_FI
     feature_importance.loc[len(feature_importance)] = shap_FI
+    feature_importance.loc[len(feature_importance)] = anova_FI
     feature_importance.loc[len(feature_importance)] = rlf_FI
-    feature_importance.loc[len(feature_importance)-1, "explainer"] = "rlf"
     analyze_feature_importance(feature_importance, features)
 
+    selected_features = get_features(feature_importance, feature_counts)
+    for method in selected_features:
+        print(f"{method} features,\t{', '.join(selected_features[method])}")
+    print("---------------------")
 
     repeats = 20
     top_features = get_features(feature_importance, feature_counts)
     records = []
     for regressor in ["linear", "rf", "svr", "ann", "lgbm", "bl", "asIs"]:
-        bl, shap, rlf = [], [], []
+        bl, shap, rlf, all, anova = [], [], [], [], []
         asIs = []
         t1 = time.time()
         #optimal, optimal_90 = [], []
-        for _ in range(repeats):
+        for ii in range(repeats):
             random_seed *= 2
             if regressor == "asIs":
                 b4    = yNums(data.rows, selected_raw_data)
@@ -497,6 +535,7 @@ def main():
                 b4    = yNums(data.rows, selected_raw_data)
                 acc, counts = exp2(selected_raw_data, data, test_data, b4, 10, 50)
                 bl.append(acc)
+                all.append(acc)
 
                 top_features_bl = get_features(feature_importance, counts)
                 selected_raw_data = Data(csv2(dataset, top_features_bl['shap'] + targets))
@@ -510,6 +549,13 @@ def main():
                 b4    = yNums(data.rows, selected_raw_data)
                 acc, _ = exp2(selected_raw_data, data, test_data, b4, 10, 50)
                 rlf.append(acc)
+
+                selected_raw_data = Data(csv2(dataset, top_features_bl['anova'] + targets))
+                data, test_data = split_data(selected_raw_data, random_seed)
+                b4    = yNums(data.rows, selected_raw_data)
+                acc, _ = exp2(selected_raw_data, data, test_data, b4, 10, 50)
+                anova.append(acc)
+
             else:
                 selected_raw_data = Data(csv2(dataset, top_features['BL'] + targets))
                 data, test_data = split_data(selected_raw_data, random_seed)
@@ -525,6 +571,17 @@ def main():
                 data, test_data = split_data(selected_raw_data, random_seed)
                 b4    = yNums(data.rows, selected_raw_data)
                 rlf.append( exp1(selected_raw_data, data, test_data, b4, regressor, 10) )
+
+                selected_raw_data = Data(csv2(dataset, top_features['anova'] + targets))
+                data, test_data = split_data(selected_raw_data, random_seed)
+                b4    = yNums(data.rows, selected_raw_data)
+                anova.append( exp1(selected_raw_data, data, test_data, b4, regressor, 10) )
+
+                selected_raw_data = Data(csv(dataset))
+                data, test_data = split_data(selected_raw_data, random_seed)
+                b4    = yNums(data.rows, selected_raw_data)
+                all.append( exp1(selected_raw_data, data, test_data, b4, regressor, 10) )
+
             #o, o_90 = find_optimal(selected_raw_data, test_data, b4, 5)
             #optimal.append(o)
             #optimal_90.append(o_90)
@@ -535,13 +592,17 @@ def main():
             asIs_acc.adds(asIs)
             records.append(asIs_acc)
         else:
-            bl_acc, shap_acc, rlf_acc = stats.SOME(txt=f"{regressor},BL"), stats.SOME(txt=f"{regressor},SHAP"), stats.SOME(txt=f"{regressor},RLF")
+            bl_acc, shap_acc, rlf_acc, all_acc, anova_acc = stats.SOME(txt=f"{regressor},BL"), stats.SOME(txt=f"{regressor},SHAP"), stats.SOME(txt=f"{regressor},RLF"), stats.SOME(txt=f"{regressor},all"), stats.SOME(txt=f"{regressor},anova")
             bl_acc.adds(bl)
             shap_acc.adds(shap)
             rlf_acc.adds(rlf)
+            all_acc.adds(all)
+            anova_acc.adds(anova)
             records.append(bl_acc)
             records.append(shap_acc)
             records.append(rlf_acc)
+            records.append(all_acc)
+            records.append(anova_acc)
 
     stats.report(records)        
 

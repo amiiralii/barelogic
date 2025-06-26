@@ -159,6 +159,8 @@ def actLearn(data, shuffle=True):
     add(hi, br)
     best.rows = ydists(best.rows, br)
     if len(best.rows) >= round(n**the.guess):
+      ## Sort Best by _guess with reverse=True, then try semi-supervised learning
+      ## or cluster the data and use the cluster labels
       add( sub(best.rows.pop(-1), best), rest)
   return o(best=best, rest=rest, todo=todo)
 
