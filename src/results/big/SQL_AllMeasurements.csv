@@ -1,0 +1,28 @@
+BL time,	15.547
+anova time,	0.009
+shap time,	22.484
+rlf time,	191.837
+---------------------
+Number of features selected by BL, 14
+BL features,	sQLITE_OMIT_OR_OPTIMIZATIO0, sQLITE_OMIT_BTREECOUNT, sQLITE_OMIT_XFER_OPT, sQLITE_OMIT_LIKE_OPTIMIZATIO0, sQLITE_ENABLE_STAT2, sQLITE_ENABLE_ATOMIC_WRITE, sQLITE_OMIT_BETWEEN_OPTIMIZATIO0, sQLITE_DISABLE_DIRSYNC, sqlite_secure_delete, sQLITE_OMIT_LOOKASIDE, sQLITE_OMIT_SHARED_CACHE, sQLITE_OMIT_QUICKBALANCE, sQLITE_DISABLE_LFS, exclusiveLock
+shap features,	chooseSQLITE_TEMP_STORE, sQLITE_TEMP_STOREzero, sQLITE_TEMP_STOREtwo, autoVacuumOff, sQLITE_OMIT_LOOKASIDE, standardPageSize, autoVacuumO0, sQLITE_OMIT_LIKE_OPTIMIZATIO0, sQLITE_ENABLE_STAT2, lowerCacheSize, sQLITE_OMIT_XFER_OPT, sQLITE_TEMP_STOREone, sQLITE_TEMP_STOREthree, normalLockingMode
+anova features,	sQLITE_OMIT_LOOKASIDE, sQLITE_ENABLE_STAT2, sQLITE_OMIT_LIKE_OPTIMIZATIO0, omitFeatures, setCacheSize, options, lockingMode, pageSize, setAutoVacuum, disableFeatures, enableFeatures, operatingSystemCharacteristics, sQLITE_OMIT_XFER_OPT, sQLITE_OMIT_SHARED_CACHE
+rlf features,	sQLITE_TEMP_STOREzero, sQLITE_TEMP_STOREtwo, autoVacuumO0, autoVacuumOff, chooseSQLITE_TEMP_STORE, sQLITE_TEMP_STOREone, sQLITE_TEMP_STOREthree, sqlite_secure_delete, standardPageSize, normalLockingMode, exclusiveLock, standardCacheSize, higherCacheSize, sQLITE_ENABLE_ATOMIC_WRITE
+---------------------
+linear time, 66.422
+rf time, 122.332
+#
+ 0,                  rf,anova, 59.00, 12.00,             -- *    |-                  
+ 0,              linear,anova, 61.00,  4.00,              -- *-- |                   
+ 0,                     rf,BL, 61.00, 25.00,     ---         *  -|---------          
+#
+ 1,                 linear,BL, 67.00,  9.00,                -   *|-                  
+ 1,                linear,all, 69.00, 12.00,                -    * -----             
+#
+ 2,                linear,RLF, 73.00,  8.00,                   --|*  ------          
+ 2,               linear,SHAP, 74.00, 10.00,                 ----| * ------          
+#
+ 3,                    rf,all, 75.00, 11.00,                     | *   ------        
+#
+ 4,                   rf,SHAP, 89.00, 20.00,                     | -----  *      --- 
+ 4,                    rf,RLF, 89.00, 16.00,                     |     ---*      --- 

@@ -1,0 +1,28 @@
+BL time,	52.347
+anova time,	0.092
+shap time,	12.19
+rlf time,	13351.057
+---------------------
+Number of features selected by BL, 8
+BL features,	atd8, cpo7, apo13, po_sm_devteam, apo11, atd5, atd6, ppo1
+shap features,	apo13, atd8, apo14, apo11, ppo1, atd5, atd3, cpo7
+anova features,	apo13, apo11, apo14, atd8, atd5, ppo1, atd3, cpo7
+rlf features,	apo13, apo14, apo11, atd8, ppo1, atd5, experienced_professionals, r_5_minutes
+---------------------
+linear time, 3609.894
+rf time, 4634.165
+#
+ 0,                    rf,RLF, 73.00, 14.00,          --     *   | ----              
+ 0,                linear,RLF, 75.00, 11.00,             --    * |  ---              
+#
+ 1,               linear,SHAP, 82.00,  8.00,                    -|  *  -----         
+ 1,              linear,anova, 82.00,  8.00,                    -|  *  -----         
+ 1,                   rf,SHAP, 82.00,  8.00,                  ---|  *  ----          
+ 1,                  rf,anova, 82.00,  8.00,                  ---|  *  ----          
+#
+ 2,                 linear,BL, 83.00, 10.00,                    -|-- *      --       
+#
+ 3,                     rf,BL, 88.00,  3.00,                     |   --  *------     
+#
+ 4,                linear,all, 97.00,  6.00,                     |             -*    
+ 4,                    rf,all, 97.00,  0.00,                     |             -*--- 

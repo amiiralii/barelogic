@@ -52,7 +52,7 @@ def run_bl_explainer(data):
     t1 = time.time()
     stts = []
     count = 0
-    for _ in range(15):
+    for _ in range(25):
         model = actLearn(data, shuffle=True)
         nodes = tree(model.best.rows + model.rest.rows, data)
         #showTree(nodes)
@@ -67,8 +67,8 @@ def run_bl_explainer(data):
     for f in bl_FI:
         bl_FI[f] = bl_FI[f] / w
     bl_FI["explainer"] = "BL"
-    bl_FI["run_time"] = (time.time()-t1) / 15
-    return bl_FI, round( count / 15 )
+    bl_FI["run_time"] = (time.time()-t1)
+    return bl_FI, round( count / 25 )
 
 def distribution_plot(labeled, data, features, sample):
     cols = [d.txt for d in data.cols.all]
@@ -195,8 +195,14 @@ def run_anova_explainer(data, features):
     labeled = data.rows
     cols = [d.txt for d in data.cols.all]
     labeled_df = pd.DataFrame(labeled, columns=cols)
+    le = LabelEncoder()
     for c in cols:
         if c not in features: labeled_df.drop(c, axis=1, inplace=True) 
+        elif c[0].isupper():
+            labeled_df[c] = pd.to_numeric(labeled_df[c], errors='coerce')
+        else:
+            labeled_df[c] = labeled_df[c].astype('category')
+            labeled_df[c] = le.fit_transform(labeled_df[c])
     labeled_df['d2h'] = pd.DataFrame([ydist(row, data) for row in labeled], columns=["d2h"])
 
     t1 = time.time()
@@ -472,7 +478,7 @@ def main():
     dataset = sys.argv[1]
     raw_data = Data(csv(dataset))
     data, test_data = split_data(raw_data)
-
+    if len(data.cols.x) > 20: the.Few = 200
     #try:
     #    os.makedirs(f"explanations/{dataset.split("/")[-1][:-4]}", exist_ok=True)
     #    print(f"Directory created successfully")
@@ -518,7 +524,8 @@ def main():
     repeats = 20
     top_features = get_features(feature_importance, feature_counts)
     records = []
-    for regressor in ["linear", "rf", "svr", "ann", "lgbm", "bl", "asIs"]:
+    for regressor in ["linear", "rf"]:
+    #for regressor in ["linear", "rf", "svr", "ann", "lgbm", "bl", "asIs"]:
         bl, shap, rlf, all, anova = [], [], [], [], []
         asIs = []
         t1 = time.time()

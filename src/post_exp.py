@@ -2,18 +2,22 @@ import os
 import csv
 from pathlib import Path
 import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
 
 def process_csv_file(file_path):
     results = []
+    chck = False
     with open(file_path, 'r') as f:
         for line in f:
             line = line.strip()
             if "asIs," in line: line = line.replace("asIs,", "asIs,,")
             if not line or line == '#':
+                chck = True
                 continue
             words = line.split(",")
             
-            if len(words) > 2:
+            if chck:
                 treatment = {}
                 treatment['rank'] = int(words[0]) * -1
                 treatment['trt'] = words[2].strip() + "_" + words[1].strip()
@@ -25,17 +29,17 @@ def process_csv_file(file_path):
     return results
 
 def analyze_results():
-    results_dir = Path('results')
+    results_dir = Path('results/big')
     if not results_dir.exists():
         print(f"Warning: {results_dir} directory does not exist")
         return {}
     cols, cols2 = [], []
-    for feature_selection in [ "RLF", "SHAP", "BL"]:
+    for feature_selection in [ "RLF", "SHAP", "BL", "anova", "all"]:
         for regressor in ["linear", "rf", "svr", "ann", "lgbm", "bl"]:
             cols.append(f"{feature_selection}_{regressor}")
     cols.append('_asIs')
     cols.append('data')
-    for feature_selection in [ "RLF", "SHAP", "BL"]:
+    for feature_selection in [ "RLF", "SHAP", "BL", "anova", "all"]:
         for regressor in ["linear", "rf", "svr", "ann", "lgbm", "bl"]:
             cols2.append(f"{feature_selection}_{regressor}")
             cols2.append(f"{feature_selection}_{regressor}_rank")
@@ -66,6 +70,6 @@ def analyze_results():
 
 if __name__ == "__main__":
     results, colors, all = analyze_results()
-    results.to_csv('results.csv', index=False)
-    colors.to_csv('colors.csv', index=False)
-    all.to_csv('combined.csv', index=False)
+    #results.to_csv('results.csv', index=False)
+    #colors.to_csv('colors.csv', index=False)
+    all.to_csv('combined_bigs.csv', index=False)

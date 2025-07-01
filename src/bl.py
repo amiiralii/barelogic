@@ -8,7 +8,7 @@ bl.py : barelogic, XAI for active learning + multi-objective optimization
 
 OPTIONS:  
 
-      -a acq        xploit or xplore or adapt   = xploit  
+      -a acq        xploit or xplore or adapt   = xplore  
       -b bootstraps num of bootstrap samples    = 512
       -B BootConf   bootstrap threshold         = 0.95
       -B BootConf   bootstrap threshold         = 0.95

@@ -1,0 +1,52 @@
+BL time,	0.069
+anova time,	0.005
+shap time,	5.655
+rlf time,	1.26
+---------------------
+Number of features selected by BL, 6
+BL features,	keepAlive, accessLog, hostnameLookups, handle, inMemory, extendedStatus
+shap features,	keepAlive, handle, hostnameLookups, inMemory, accessLog, extendedStatus
+anova features,	keepAlive, base, handle, hostnameLookups, accessLog, inMemory
+rlf features,	keepAlive, handle, inMemory, base, hostnameLookups, enableSendfile
+---------------------
+linear time, 2.894
+rf time, 15.658
+svr time, 2.932
+ann time, 24.692
+lgbm time, 5.932
+bl time, 6.702
+asIs time, 0.01
+#
+ 0,                      asIs, 40.00, 51.00,              -------|----     *  -      
+#
+ 1,                 linear,BL, 95.00,  5.00,                     |                -* 
+ 1,               linear,SHAP, 95.00,  5.00,                     |                -* 
+ 1,                linear,RLF, 95.00,  5.00,                     |                -* 
+ 1,                linear,all, 95.00,  5.00,                     |                -* 
+ 1,              linear,anova, 95.00,  5.00,                     |                -* 
+ 1,                     rf,BL, 95.00,  5.00,                     |                -* 
+ 1,                   rf,SHAP, 95.00,  5.00,                     |                -* 
+ 1,                    rf,RLF, 95.00,  5.00,                     |                -* 
+ 1,                    rf,all, 95.00,  5.00,                     |                -* 
+ 1,                  rf,anova, 95.00,  5.00,                     |                -* 
+ 1,                    svr,BL, 95.00, 10.00,                     |                 * 
+ 1,                  svr,SHAP, 95.00, 10.00,                     |                 * 
+ 1,                   svr,RLF, 95.00, 10.00,                     |                 * 
+ 1,                   svr,all, 95.00, 10.00,                     |                 * 
+ 1,                 svr,anova, 95.00, 10.00,                     |                 * 
+ 1,                   lgbm,BL, 95.00,  5.00,                     |                 * 
+ 1,                 lgbm,SHAP, 95.00,  5.00,                     |                 * 
+ 1,                  lgbm,RLF, 95.00,  0.00,                     |                -* 
+ 1,                  lgbm,all, 95.00,  5.00,                     |                 * 
+ 1,                lgbm,anova, 95.00,  5.00,                     |                 * 
+ 1,                     bl,BL, 95.00,  5.00,                     |                -* 
+ 1,                   bl,SHAP, 95.00,  5.00,                     |                -* 
+ 1,                    bl,RLF, 95.00,  5.00,                     |                -* 
+ 1,                    bl,all, 95.00,  5.00,                     |                -* 
+ 1,                  bl,anova, 95.00,  5.00,                     |                -* 
+#
+ 2,                    ann,BL, 100.00,  5.00,                     |                - *
+ 2,                  ann,SHAP, 100.00,  5.00,                     |                - *
+ 2,                   ann,RLF, 100.00,  5.00,                     |                - *
+ 2,                   ann,all, 100.00,  5.00,                     |                - *
+ 2,                 ann,anova, 100.00,  5.00,                     |                - *

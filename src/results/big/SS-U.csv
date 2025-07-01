@@ -1,0 +1,27 @@
+BL time,	8.458
+anova time,	0.005
+shap time,	10.084
+rlf time,	100.266
+---------------------
+Number of features selected by BL, 8
+BL features,	core4, core2, ref_1, core3, no_mbtree, no_8x8dct, rc_lookahead_20, no_deblock
+shap features,	core4, core2, ref_9, ref_1, no_mbtree, core1, core3, no_mixed_refs
+anova features,	core4, ref_9, core2, rc_lookahead_20, rc_lookahead_40, rc_lookahead_60, ref_5, core3
+rlf features,	core4, core2, core3, core1, ref_9, ref_1, ref_5, no_mbtree
+---------------------
+linear time, 41.015
+rf time, 76.384
+#
+ 0,              linear,anova, 94.00,  0.00,         -----*------|-----              
+ 0,                  rf,anova, 94.00,  1.00,         -----*   ---|-----              
+#
+ 1,                   rf,SHAP, 96.00,  2.00,         ---------   | *   -----         
+ 1,                    rf,RLF, 96.00,  1.00,              -------|-*   -----         
+#
+ 2,               linear,SHAP, 97.00,  1.00,                     |     *--------     
+ 2,                linear,RLF, 97.00,  1.00,              -------|-    *--------     
+ 2,                linear,all, 97.00,  2.00,                     | ----*             
+ 2,                 linear,BL, 98.00,  1.00,                     | ----     *---     
+#
+ 3,                     rf,BL, 100.00,  1.00,                     |          ----    *
+ 3,                    rf,all, 100.00,  1.00,                     |          ----    *
