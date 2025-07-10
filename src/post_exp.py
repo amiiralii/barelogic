@@ -23,13 +23,14 @@ def process_csv_file(file_path):
                 treatment['trt'] = words[2].strip() + "_" + words[1].strip()
                 treatment['mean'] = words[3]
                 results.append(treatment)
+    print(file_path)
     rank_stabilizer = min([i['rank'] for i in results]) * -1
     for i in results:
         i['rank'] = i['rank'] + rank_stabilizer
     return results
 
 def analyze_results():
-    results_dir = Path('results/big')
+    results_dir = Path('results/big_5')
     if not results_dir.exists():
         print(f"Warning: {results_dir} directory does not exist")
         return {}
@@ -72,4 +73,11 @@ if __name__ == "__main__":
     results, colors, all = analyze_results()
     #results.to_csv('results.csv', index=False)
     #colors.to_csv('colors.csv', index=False)
-    all.to_csv('combined_bigs.csv', index=False)
+    desired_order = [ 'RLF_linear', 'RLF_linear_rank', 'SHAP_linear', 'SHAP_linear_rank', 'BL_linear', 'BL_linear_rank', 'anova_linear', 'anova_linear_rank', 'all_linear', 'all_linear_rank',
+                     'RLF_rf', 'RLF_rf_rank', 'SHAP_rf', 'SHAP_rf_rank', 'BL_rf', 'BL_rf_rank', 'anova_rf', 'anova_rf_rank', 'all_rf', 'all_rf_rank',
+                     'RLF_svr', 'RLF_svr_rank', 'SHAP_svr', 'SHAP_svr_rank', 'BL_svr', 'BL_svr_rank', 'anova_svr', 'anova_svr_rank', 'all_svr', 'all_svr_rank',
+                     'RLF_ann', 'RLF_ann_rank', 'SHAP_ann', 'SHAP_ann_rank', 'BL_ann', 'BL_ann_rank', 'anova_ann', 'anova_ann_rank', 'all_ann', 'all_ann_rank',
+                     'RLF_lgbm', 'RLF_lgbm_rank', 'SHAP_lgbm', 'SHAP_lgbm_rank', 'BL_lgbm', 'BL_lgbm_rank', 'anova_lgbm', 'anova_lgbm_rank', 'all_lgbm', 'all_lgbm_rank',
+                     'RLF_bl', 'RLF_bl_rank', 'SHAP_bl', 'SHAP_bl_rank', 'BL_bl', 'BL_bl_rank', 'anova_bl', 'anova_bl_rank', 'all_bl', 'all_bl_rank',
+        '_asIs', '_asIs_rank', 'data']
+    all[desired_order].to_csv('combined_bigs.csv', index=False)

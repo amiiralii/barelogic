@@ -1,0 +1,37 @@
+BL time,	224.801
+anova time,	0.02
+shap time,	8.474
+rlf time,	727.161
+---------------------
+Number of features selected by BL, 8
+BL features,	testcase6, reports, quaterly, draft, creditlimit, one_time, none, prepaid
+shap features,	editcustomerdetails, testcase7, a15days, prepaid, none, testcase3, quaterly, reports
+anova features,	editcustomerdetails, testcase7, email, testcase16, a15days, customer, testcase17, prepaid
+rlf features,	editcustomerdetails, testcase7, a15days, none, prepaid, subaccounts, monthly, email
+---------------------
+linear time, 240.923
+rf time, 308.745
+bl time, 613.992
+#
+ 0,                linear,RLF, 76.00,  7.00,              ------ | * ---------       
+ 0,                    bl,RLF, 77.00, 15.00,                --   | *   ------        
+#
+ 1,              linear,anova, 78.00,  5.00,                -----|- * --             
+#
+ 2,                 linear,BL, 81.00, 11.00,                    -|    *  -----       
+ 2,                  rf,anova, 82.00,  5.00,                -----|---  *------       
+#
+ 3,                    rf,RLF, 84.00, 10.00,                     |----  *    ----    
+ 3,                  bl,anova, 84.00, 11.00,                     |   -  *    ----    
+#
+ 4,               linear,SHAP, 85.00,  8.00,                    -|---    *----       
+ 4,                     rf,BL, 85.00,  8.00,                   --|-      *----       
+#
+ 5,                   rf,SHAP, 91.00,  7.00,                     |      --   * --    
+ 5,                linear,all, 93.00, 13.00,                     |    ---     *  --- 
+#
+ 6,                    rf,all, 94.00,  4.00,                     |           --* --- 
+#
+ 7,                     bl,BL, 98.00,  8.00,                     |         ----  *   
+ 7,                   bl,SHAP, 98.00,  8.00,                     |         ----  *   
+ 7,                    bl,all, 98.00,  8.00,                     |         ----  *   

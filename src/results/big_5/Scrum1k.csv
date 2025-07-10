@@ -1,0 +1,33 @@
+BL time,	11.192
+anova time,	0.015
+shap time,	11.828
+rlf time,	53.775
+---------------------
+Number of features selected by BL, 5
+BL features,	apo11, atd8, atd3, apo13, po_sm_devteam
+shap features,	atd8, apo13, atd5, apo11, atd3
+anova features,	refinery_requirements, t_15_minutes, t_15_to_20_minutes, po_sm_devteam, experienced_professionals
+rlf features,	atd8, apo13, apo11, atd5, apo14
+---------------------
+linear time, 37.165
+rf time, 70.835
+bl time, 34.988
+#
+ 0,              linear,anova, 65.00, 30.00,       -----      *  |    -              
+ 0,                    bl,RLF, 65.00, 19.00,          ------  *  |  --------         
+ 0,                  bl,anova, 66.00, 22.00,             ---  *  |    ------         
+ 0,                  rf,anova, 73.00, 18.00,            ------   *    -              
+#
+ 1,                linear,RLF, 83.00, 13.00,                   --|    *----          
+ 1,                     bl,BL, 83.00, 14.00,                     |    * --------     
+ 1,                    bl,all, 83.00, 14.00,                     |    * --------     
+#
+ 2,                 linear,BL, 84.00,  7.00,                     |  --*  --          
+ 2,               linear,SHAP, 84.00,  7.00,                     |  --*  --          
+ 2,                     rf,BL, 84.00,  6.00,                     |--  *----          
+ 2,                   rf,SHAP, 84.00,  6.00,                     |--  *----          
+ 2,                    rf,RLF, 84.00,  6.00,                    -|--  *--            
+ 2,                   bl,SHAP, 86.00,  9.00,                  ---|--   *--------     
+#
+ 3,                    rf,all, 89.00, 19.00,                     |----- *            
+ 3,                linear,all, 95.00, 19.00,                     |    -    *         

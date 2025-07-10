@@ -1,0 +1,33 @@
+BL time,	41.495
+anova time,	0.004
+shap time,	36.999
+rlf time,	80.224
+---------------------
+Number of features selected by BL, 13
+BL features,	KLOC, SITE, RELY, DOCU, AEXP, PCON, ACAP, TEAM, DATA, PVOL, B, PREC, PR
+shap features,	KLOC, RELY, SITE, ACAP, TEAM, AEXP, PCAP, PCON, RUSE, PREC, DOCU, PVOL, RESL
+anova features,	KLOC, RELY, SITE, TEAM, AEXP, PCON, SCED, TOOL, ACAP, PCAP, RUSE, PVOL, DOCU
+rlf features,	KLOC, RELY, SITE, PCAP, ACAP, DATA, AA, AEXP, B, DOCU, ETAT, PCON, PMAT
+---------------------
+linear time, 145.94
+rf time, 1169.376
+bl time, 332.675
+#
+ 0,                linear,RLF, 90.00,  6.00,                 --- | *     -           
+ 0,              linear,anova, 90.00,  4.00,               ----- | *  ----           
+ 0,                     bl,BL, 90.00,  7.00,              ----   | *     ----------  
+ 0,                    bl,all, 90.00,  7.00,              ----   | *     ----------  
+ 0,                 linear,BL, 92.00,  7.00,               --    |    *---           
+ 0,                linear,all, 92.00,  8.00,               --    |    *  -------     
+#
+ 1,               linear,SHAP, 94.00,  4.00,                 ----|-      *---------  
+ 1,                   bl,SHAP, 94.00,  9.00,              -------|-      *      ---- 
+ 1,                    bl,RLF, 94.00, 11.00,                    -|-      *         - 
+#
+ 2,                    rf,RLF, 95.00,  4.00,                     |    --- *    -     
+ 2,                  bl,anova, 95.00, 10.00,                    -|-       *       -  
+#
+ 3,                     rf,BL, 98.00,  4.00,                     |     ---     *---  
+ 3,                   rf,SHAP, 98.00,  1.00,                     |     --------*---  
+ 3,                    rf,all, 98.00,  4.00,                     |     ---     *---  
+ 3,                  rf,anova, 98.00,  4.00,                     |    ----     *---  

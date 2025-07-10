@@ -48,11 +48,11 @@ def split_data(data, r_seed = 42, test_size=0.2):
 def run_bl_explainer(data):
     """Run BareLogic explainer and return feature importance"""
     #print('-------BL:-------')
-    the.Stop = 32
+    #the.Stop = 32
     t1 = time.time()
     stts = []
     count = 0
-    for _ in range(25):
+    for _ in range(15):
         model = actLearn(data, shuffle=True)
         nodes = tree(model.best.rows + model.rest.rows, data)
         #showTree(nodes)
@@ -478,7 +478,9 @@ def main():
     dataset = sys.argv[1]
     raw_data = Data(csv(dataset))
     data, test_data = split_data(raw_data)
-    if len(data.cols.x) > 20: the.Few = 200
+    stp = len(data.rows) // 10  if len(data.cols.x) > 20 and len(data.rows) > 1000 else 50
+    the.Stop = stp
+    the.acq = "xploit"
     #try:
     #    os.makedirs(f"explanations/{dataset.split("/")[-1][:-4]}", exist_ok=True)
     #    print(f"Directory created successfully")
@@ -524,7 +526,7 @@ def main():
     repeats = 20
     top_features = get_features(feature_importance, feature_counts)
     records = []
-    for regressor in ["linear", "rf"]:
+    for regressor in ["linear", "rf", "bl"]:
     #for regressor in ["linear", "rf", "svr", "ann", "lgbm", "bl", "asIs"]:
         bl, shap, rlf, all, anova = [], [], [], [], []
         asIs = []
@@ -540,7 +542,7 @@ def main():
                 selected_raw_data = Data(csv(dataset))
                 data, test_data = split_data(selected_raw_data, random_seed)
                 b4    = yNums(data.rows, selected_raw_data)
-                acc, counts = exp2(selected_raw_data, data, test_data, b4, 10, 50)
+                acc, counts = exp2(selected_raw_data, data, test_data, b4, 10, stp)
                 bl.append(acc)
                 all.append(acc)
 
@@ -548,19 +550,19 @@ def main():
                 selected_raw_data = Data(csv2(dataset, top_features_bl['shap'] + targets))
                 data, test_data = split_data(selected_raw_data, random_seed)
                 b4    = yNums(data.rows, selected_raw_data)
-                acc, _ = exp2(selected_raw_data, data, test_data, b4, 10, 50)
+                acc, _ = exp2(selected_raw_data, data, test_data, b4, 10, stp)
                 shap.append(acc)
 
                 selected_raw_data = Data(csv2(dataset, top_features_bl['rlf'] + targets))
                 data, test_data = split_data(selected_raw_data, random_seed)
                 b4    = yNums(data.rows, selected_raw_data)
-                acc, _ = exp2(selected_raw_data, data, test_data, b4, 10, 50)
+                acc, _ = exp2(selected_raw_data, data, test_data, b4, 10, stp)
                 rlf.append(acc)
 
                 selected_raw_data = Data(csv2(dataset, top_features_bl['anova'] + targets))
                 data, test_data = split_data(selected_raw_data, random_seed)
                 b4    = yNums(data.rows, selected_raw_data)
-                acc, _ = exp2(selected_raw_data, data, test_data, b4, 10, 50)
+                acc, _ = exp2(selected_raw_data, data, test_data, b4, 10, stp)
                 anova.append(acc)
 
             else:
