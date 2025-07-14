@@ -526,8 +526,8 @@ def main():
     repeats = 20
     top_features = get_features(feature_importance, feature_counts)
     records = []
-    for regressor in ["linear", "rf", "bl"]:
-    #for regressor in ["linear", "rf", "svr", "ann", "lgbm", "bl", "asIs"]:
+    #for regressor in ["linear", "rf", "bl"]:
+    for regressor in ["linear", "rf", "svr", "ann", "lgbm", "bl", "asIs"]:
         bl, shap, rlf, all, anova = [], [], [], [], []
         asIs = []
         t1 = time.time()

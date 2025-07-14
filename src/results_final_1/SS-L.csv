@@ -1,0 +1,53 @@
+BL time,	2.002
+anova time,	0.002
+shap time,	12.406
+rlf time,	6.28
+---------------------
+Number of features selected by BL, 5
+BL features,	K, H, I, J, F
+shap features,	H, K, I, J, F
+anova features,	H, K, I, J, F
+rlf features,	H, J, I, K, A
+---------------------
+linear time, 5.731
+rf time, 16.753
+svr time, 6.15
+ann time, 21.501
+lgbm time, 7.871
+bl time, 12.216
+asIs time, 0.042
+#
+ 0,                      asIs, -7.00, 25.00,   --   *    --------|---------------    
+#
+ 1,                linear,RLF, 98.00,  2.00,                     |                 * 
+ 1,                    ann,BL, 98.00,  2.00,                     |                -* 
+ 1,                  ann,SHAP, 98.00,  2.00,                     |                -* 
+ 1,                   ann,RLF, 98.00,  2.00,                     |                -* 
+ 1,                   ann,all, 98.00,  2.00,                     |                -* 
+ 1,                 ann,anova, 98.00,  2.00,                     |                -* 
+ 1,                  lgbm,RLF, 98.00,  4.00,                     |                -* 
+ 1,                   bl,SHAP, 98.00,  1.00,                     |                -* 
+ 1,                  bl,anova, 98.00,  2.00,                     |                -* 
+#
+ 2,                    rf,RLF, 99.00,  2.00,                     |                  *
+ 2,                    svr,BL, 99.00,  2.00,                     |                  *
+ 2,                  svr,SHAP, 99.00,  2.00,                     |                  *
+ 2,                   svr,RLF, 99.00,  2.00,                     |                  *
+ 2,                   svr,all, 99.00,  2.00,                     |                  *
+ 2,                 svr,anova, 99.00,  2.00,                     |                  *
+ 2,                   lgbm,BL, 99.00,  2.00,                     |                - *
+ 2,                 lgbm,SHAP, 99.00,  2.00,                     |                - *
+ 2,                  lgbm,all, 99.00,  2.00,                     |                - *
+ 2,                lgbm,anova, 99.00,  2.00,                     |                - *
+ 2,                     bl,BL, 99.00,  2.00,                     |                  *
+ 2,                    bl,RLF, 99.00,  2.00,                     |                - *
+ 2,                    bl,all, 99.00,  2.00,                     |                  *
+#
+ 3,                 linear,BL, 100.00,  2.00,                     |                  *
+ 3,               linear,SHAP, 100.00,  2.00,                     |                  *
+ 3,                linear,all, 100.00,  2.00,                     |                  *
+ 3,              linear,anova, 100.00,  2.00,                     |                  *
+ 3,                     rf,BL, 100.00,  1.00,                     |                 -*
+ 3,                   rf,SHAP, 100.00,  1.00,                     |                 -*
+ 3,                    rf,all, 100.00,  1.00,                     |                 -*
+ 3,                  rf,anova, 100.00,  1.00,                     |                 -*

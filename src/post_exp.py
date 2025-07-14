@@ -30,7 +30,7 @@ def process_csv_file(file_path):
     return results
 
 def analyze_results():
-    results_dir = Path('results/big_5')
+    results_dir = Path('results_final_1/')
     if not results_dir.exists():
         print(f"Warning: {results_dir} directory does not exist")
         return {}
@@ -71,7 +71,7 @@ def analyze_results():
 
 if __name__ == "__main__":
     results, colors, all = analyze_results()
-    #results.to_csv('results.csv', index=False)
+    
     #colors.to_csv('colors.csv', index=False)
     desired_order = [ 'RLF_linear', 'RLF_linear_rank', 'SHAP_linear', 'SHAP_linear_rank', 'BL_linear', 'BL_linear_rank', 'anova_linear', 'anova_linear_rank', 'all_linear', 'all_linear_rank',
                      'RLF_rf', 'RLF_rf_rank', 'SHAP_rf', 'SHAP_rf_rank', 'BL_rf', 'BL_rf_rank', 'anova_rf', 'anova_rf_rank', 'all_rf', 'all_rf_rank',
@@ -81,3 +81,11 @@ if __name__ == "__main__":
                      'RLF_bl', 'RLF_bl_rank', 'SHAP_bl', 'SHAP_bl_rank', 'BL_bl', 'BL_bl_rank', 'anova_bl', 'anova_bl_rank', 'all_bl', 'all_bl_rank',
         '_asIs', '_asIs_rank', 'data']
     all[desired_order].to_csv('combined_bigs.csv', index=False)
+    desired_order2 = [ 'RLF_linear', 'SHAP_linear', 'BL_linear', 'anova_linear', 'all_linear',
+                     'RLF_rf', 'SHAP_rf', 'BL_rf', 'anova_rf', 'all_rf',
+                     'RLF_svr', 'SHAP_svr', 'BL_svr', 'anova_svr', 'all_svr',
+                     'RLF_ann', 'SHAP_ann', 'BL_ann', 'anova_ann', 'all_ann',
+                     'RLF_lgbm', 'SHAP_lgbm', 'BL_lgbm', 'anova_lgbm', 'all_lgbm',
+                     'RLF_bl', 'SHAP_bl', 'BL_bl', 'anova_bl', 'all_bl',
+        '_asIs', 'data']
+    results[desired_order2].to_csv('results.csv', index=False)

@@ -1,0 +1,60 @@
+BL time,	1.491
+anova time,	0.001
+shap time,	10.513
+rlf time,	4.941
+---------------------
+Number of features selected by BL, 5
+BL features,	InnodbBufferPoolSize, TempTableSize, InnodbLogBufferSize, binaryLog, innodbDoubleWrite
+shap features,	delayedInnodbLogWrite, InnodbBufferPoolSize, delayedInnodbLogFlush, binaryLog, dsyncFlush
+anova features,	innodbFlushMethod, dsyncFlush, directFlush, fsyncFlush, delayedInnodbLogWrite
+rlf features,	fsyncFlush, dsyncFlush, innodbDoubleWrite, TempTableSize, delayedInnodbLogWrite
+---------------------
+linear time, 5.216
+rf time, 16.347
+svr time, 7.19
+ann time, 19.517
+lgbm time, 7.103
+bl time, 8.509
+asIs time, 0.039
+#
+ 0,                      asIs, 23.00, 33.00,         -------    *|  ---              
+#
+ 1,                     rf,BL, 42.00, 14.00,                   --|-  *----           
+#
+ 2,                linear,RLF, 48.00,  6.00,                     |--- *---           
+#
+ 3,              linear,anova, 52.00, 13.00,                     |   - *  --         
+ 3,                   lgbm,BL, 52.00, 19.00,                     |--   * ----        
+#
+ 4,                 linear,BL, 63.00, 17.00,                     |  ----  *  ------- 
+#
+ 5,                linear,all, 66.00, 24.00,                     |       - *    ---  
+ 5,                    ann,BL, 69.00, 24.00,                     |   -     *-------  
+ 5,                    svr,BL, 72.00, 49.00,                    -|---       *        
+ 5,               linear,SHAP, 74.00, 35.00,                     |       -   *     - 
+#
+ 6,                   svr,all, 79.00,  6.00,                     |        ----*----  
+ 6,                   svr,RLF, 84.00,  9.00,                     |            -*     
+ 6,                  bl,anova, 84.00, 18.00,                     |   ------    *--   
+#
+ 7,                    bl,RLF, 86.00,  3.00,                     |       ------ *-   
+ 7,                    rf,RLF, 88.00,  6.00,                     |            - *--  
+ 7,                     bl,BL, 88.00, 12.00,                     |        ----- * -  
+ 7,                   bl,SHAP, 88.00, 13.00,                     |      ------  *--  
+ 7,                    bl,all, 88.00, 12.00,                     |        ----- * -  
+#
+ 8,                 ann,anova, 90.00,  7.00,                     |               *-- 
+ 8,                  rf,anova, 91.00,  8.00,                     |             - *-  
+ 8,                 svr,anova, 91.00, 10.00,                     |            -- *-  
+ 8,                   ann,RLF, 91.00,  6.00,                     |             - *-  
+ 8,                   ann,all, 91.00, 12.00,                     |            -- * - 
+ 8,                  lgbm,RLF, 91.00,  7.00,                     |            -  *   
+#
+ 9,                    rf,all, 92.00, 11.00,                     |             - *   
+ 9,                lgbm,anova, 92.00, 11.00,                     |             - *-  
+ 9,                  ann,SHAP, 94.00, 12.00,                     |         -----  *- 
+#
+10,                  lgbm,all, 96.00,  7.00,                     |             -- *  
+10,                  svr,SHAP, 97.00,  8.00,                     |              - *- 
+10,                   rf,SHAP, 99.00, 14.00,                     |                 * 
+10,                 lgbm,SHAP, 99.00,  3.00,                     |             --- * 

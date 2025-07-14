@@ -1,0 +1,53 @@
+BL time,	2.0
+anova time,	0.001
+shap time,	10.82
+rlf time,	1.99
+---------------------
+Number of features selected by BL, 5
+BL features,	CriticalityModifier, TeamSize, Size, Culture, InterDependency
+shap features,	CriticalityModifier, Size, InitialKnown, Criticality, InterDependency
+anova features,	CriticalityModifier, Size, Criticality, InitialKnown, Plan
+rlf features,	Criticality, InterDependency, CriticalityModifier, Plan, Culture
+---------------------
+linear time, 3.665
+rf time, 26.55
+svr time, 6.238
+ann time, 15.179
+lgbm time, 7.405
+bl time, 11.49
+asIs time, 0.025
+#
+ 0,                      asIs, -36.00, 97.00,    ----   *         |     ---           
+#
+ 1,                   svr,all, 82.00, 31.00,                     |            *      
+ 1,                   lgbm,BL, 82.00, 16.00,                     |         -- *      
+ 1,                 lgbm,SHAP, 82.00, 14.00,                     |         -- * ---  
+ 1,                  lgbm,all, 82.00, 17.00,                     |        --- *      
+ 1,                    bl,RLF, 82.00, 26.00,                     |       --   * -    
+ 1,                  bl,anova, 82.00, 19.00,                     |       ---  * -    
+#
+ 2,                   ann,RLF, 83.00, 18.00,                     |       ----  *     
+ 2,                   ann,all, 83.00, 17.00,                     |       ----  *-    
+ 2,                     bl,BL, 83.00, 15.00,                     |       ----  *     
+ 2,                    bl,all, 83.00, 15.00,                     |       ----  *     
+ 2,                     rf,BL, 85.00,  8.00,                     |           - *     
+ 2,                   rf,SHAP, 85.00,  7.00,                     |            -*---  
+ 2,                    rf,RLF, 85.00, 10.00,                     |         --  *     
+ 2,                    rf,all, 85.00,  5.00,                     |       ------*     
+ 2,                  rf,anova, 85.00,  8.00,                     |           - *-    
+ 2,                 ann,anova, 85.00, 12.00,                     |           - *---  
+ 2,                  lgbm,RLF, 85.00, 13.00,                     |       ----  *-    
+ 2,                lgbm,anova, 85.00, 16.00,                     |         --  *     
+ 2,                   bl,SHAP, 85.00, 20.00,                     |       ---   *---  
+ 2,                    ann,BL, 86.00, 18.00,                     |             * --  
+ 2,                    svr,BL, 88.00,  7.00,                     |           -  *    
+#
+ 3,                 linear,BL, 89.00,  4.00,                     |             -*--  
+ 3,               linear,SHAP, 89.00,  4.00,                     |             -*    
+ 3,                linear,RLF, 89.00,  4.00,                     |          ----*    
+ 3,                linear,all, 89.00,  4.00,                     |             -*    
+ 3,              linear,anova, 89.00,  4.00,                     |             -*    
+ 3,                  svr,SHAP, 89.00, 22.00,                     |            - *    
+ 3,                   svr,RLF, 89.00, 13.00,                     |         ---- * -  
+ 3,                 svr,anova, 89.00, 11.00,                     |              *--  
+ 3,                  ann,SHAP, 89.00, 12.00,                     |        ----  *--  

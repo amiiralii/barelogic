@@ -1,0 +1,60 @@
+BL time,	1.797
+anova time,	0.003
+shap time,	202.599
+rlf time,	71.144
+---------------------
+Number of features selected by BL, 4
+BL features,	ssl, journal, dataCompression, journalCommitInterval
+shap features,	ssl, journalCompression, journalCommitInterval, journal
+anova features,	ssl, journalCommitInterval, wireObjectCheck, indexPrefixCompression
+rlf features,	networkCompression, journalCompressionSnappy, nojournal, journalCompression
+---------------------
+linear time, 40.935
+rf time, 76.5
+svr time, 83.952
+ann time, 80.379
+lgbm time, 46.195
+bl time, 34.487
+asIs time, 0.326
+#
+ 0,                      asIs, 25.00, 58.00,       ---           | *--------         
+#
+ 1,                lgbm,anova, 57.00,  9.00,                     |       -* -        
+ 1,                 ann,anova, 61.00,  9.00,                     |         *         
+ 1,                  rf,anova, 62.00, 10.00,                     |         *-        
+#
+ 2,              linear,anova, 64.00,  3.00,                     |        - *        
+#
+ 3,                 svr,anova, 65.00,  2.00,                     |        --*        
+#
+ 4,                    rf,RLF, 93.00,  4.00,                     |               -*  
+#
+ 5,                  lgbm,RLF, 94.00,  2.00,                     |               -*- 
+ 5,                    bl,RLF, 94.00,  5.00,                     |         -------*- 
+ 5,                  bl,anova, 94.00, 31.00,                     |         -      *- 
+#
+ 6,                linear,RLF, 95.00,  1.00,                     |                 * 
+ 6,                   svr,RLF, 95.00,  3.00,                     |                 * 
+ 6,                   ann,RLF, 95.00,  1.00,                     |                 * 
+ 6,                 lgbm,SHAP, 95.00,  1.00,                     |                -* 
+#
+ 7,               linear,SHAP, 96.00,  1.00,                     |                -* 
+ 7,                   rf,SHAP, 96.00,  3.00,                     |                -* 
+ 7,                  svr,SHAP, 96.00,  2.00,                     |                -* 
+ 7,                  ann,SHAP, 96.00,  2.00,                     |                 * 
+ 7,                   lgbm,BL, 96.00,  3.00,                     |                 * 
+ 7,                  lgbm,all, 96.00,  2.00,                     |                 * 
+ 7,                   bl,SHAP, 96.00,  3.00,                     |         --------* 
+#
+ 8,                 linear,BL, 97.00,  3.00,                     |                 * 
+ 8,                linear,all, 97.00,  3.00,                     |                 * 
+ 8,                    svr,BL, 97.00,  4.00,                     |                 * 
+ 8,                   svr,all, 97.00,  5.00,                     |                 * 
+ 8,                    ann,BL, 97.00,  1.00,                     |                -* 
+ 8,                   ann,all, 97.00,  1.00,                     |                 * 
+#
+ 9,                     bl,BL, 98.00,  2.00,                     |           ------* 
+ 9,                    bl,all, 98.00,  2.00,                     |           ------* 
+#
+10,                     rf,BL, 99.00,  4.00,                     |                  *
+10,                    rf,all, 99.00,  4.00,                     |                  *

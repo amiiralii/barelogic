@@ -1,63 +1,62 @@
-     x,      y,   rows, dataset
-------,------,------
-     3,      1,    197, wc+rs-3d-c4-obj1
-     3,      1,    197, wc+sol-3d-c4-obj1
-     3,      1,    197, wc+wc-3d-c4-obj1
-     3,      2,    197, SS-D
-     3,      2,    197, SS-F
-     3,      2,    197, SS-G
-     3,      2,    207, SS-B
-     3,      2,    757, SS-E
-     3,      2,   1344, SS-A
-     3,      2,   1513, SS-C
-     4,      2,    260, SS-H
-     5,      2,   1081, SS-I
-     5,      3,    399, auto93
-     5,      3,  10001, healthCloseIsses12mths0001-hard
-     5,      3,  10001, healthCloseIsses12mths0011-easy
-     6,      1,   2867, sol-6d-c2-obj1
-     6,      1,   2881, wc-6d-c1-obj1
-     6,      1,   3841, rs-6d-c3_obj1
-     6,      1,   3841, rs-6d-c3_obj2
-     6,      2,   2881, SS-K
-     6,      2,   3841, SS-J
-     6,      2,   3841, SS-S
-     9,      1,    193, Apache_AllMeasurements
-     9,      3,    501, pom3d
-     9,      3,  20001, pom3a
-     9,      3,  20001, pom3b
-     9,      3,  20001, pom3c
-    10,      2,   1600, Wine_quality
-    11,      2,    973, SS-O
-    11,      2,   1024, SS-L
-    11,      2,   1024, SS-P
-    11,      2,  86059, SS-X
-    12,      2,   5185, SS-T
-    13,      3,   2737, SS-Q
-    14,      1,   3457, HSMGP_num
-    14,      2,   3009, SS-R
-    16,      1,   1153, X264_AllMeasurements
-    16,      2,   6841, SS-V
-    16,      2,  65537, SS-W
-    17,      2,  53663, SS-N
-    17,      3,    865, SS-M
-    20,      5,   1001, coc1000
-    21,      2,   4609, SS-U
-    25,      4,     94, nasa93dem
-    27,      4,  10001, xomo_flight
-    27,      4,  10001, xomo_ground
-    27,      4,  10001, xomo_osp
-    27,      4,  10001, xomo_osp2
-    39,      1,   4654, SQL_AllMeasurements
-    88,      3,  10001, billing10k
-   124,      3,   1001, Scrum1k
-   124,      3,  10001, Scrum10k
-   124,      3, 100001, Scrum100k
-   128,      3,  10001, FFM-125-25-0.50-SAT-1
-   256,      3,  10001, FFM-250-50-0.50-SAT-1
-   510,      3,  10001, FFM-500-100-0.50-SAT-1
-   511,      3,  10001, FM-500-100-0.75-SAT-1
-   511,      3,  10001, FM-500-100-1.00-SAT-1
-   513,      3,  10001, FM-500-100-0.50-SAT-1
-   517,      3,  10001, FM-500-100-0.25-SAT-1
-  1044,      3,  10001, FFM-1000-200-0.50-SAT-1
+     x/y,   rows,   name
+     3/1,    197, config/wc+rs-3d-c4-obj1.csv
+     3/1,    197, config/wc+sol-3d-c4-obj1.csv
+     3/1,    197, config/wc+wc-3d-c4-obj1.csv
+     3/2,    197, config/SS-D.csv
+     3/2,    197, config/SS-F.csv
+     3/2,    197, config/SS-G.csv
+     3/2,    207, config/SS-B.csv
+     3/2,    757, config/SS-E.csv
+     3/2,   1344, config/SS-A.csv
+     3/2,   1513, config/SS-C.csv
+     4/2,    260, config/SS-H.csv
+     5/2,   1081, config/SS-I.csv
+     6/1,   2867, config/sol-6d-c2-obj1.csv
+     6/1,   2881, config/wc-6d-c1-obj1.csv
+     6/1,   3841, config/rs-6d-c3_obj1.csv
+     6/1,   3841, config/rs-6d-c3_obj2.csv
+     6/2,   2881, config/SS-K.csv
+     6/2,   3841, config/SS-J.csv
+     6/2,   3841, config/SS-S.csv
+     9/1,    193, config/Apache_AllMeasurements.csv
+    11/2,    973, config/SS-O.csv
+    11/2,   1024, config/SS-L.csv
+    11/2,   1024, config/SS-P.csv
+    11/2,  86059, config/SS-X.csv
+    12/2,   5185, config/SS-T.csv
+    13/3,   2737, config/SS-Q.csv
+    14/1,   3457, config/HSMGP_num.csv
+    14/2,   3009, config/SS-R.csv
+    16/1,   1153, config/X264_AllMeasurements.csv
+    16/2,   6841, config/SS-V.csv
+    16/2,  65537, config/SS-W.csv
+    17/2,  53663, config/SS-N.csv
+    17/3,    865, config/SS-M.csv
+    21/2,   4609, config/SS-U.csv
+    39/1,   4654, config/SQL_AllMeasurements.csv
+     5/3,    399, misc/auto93.csv
+    10/2,   1600, misc/Wine_quality.csv
+     5/3,  10001, hpo/healthCloseIsses12mths0001-hard.csv
+     5/3,  10001, hpo/healthCloseIsses12mths0011-easy.csv
+     9/3,    501, process/pom3d.csv
+     9/3,  20001, process/pom3a.csv
+     9/3,  20001, process/pom3b.csv
+     9/3,  20001, process/pom3c.csv
+    20/5,   1001, process/coc1000.csv
+    25/4,     94, process/nasa93dem.csv
+    27/4,  10001, process/xomo_flight.csv
+    27/4,  10001, process/xomo_ground.csv
+    27/4,  10001, process/xomo_osp.csv
+    27/4,  10001, process/xomo_osp2.csv
+    88/3,  10001, binary_config/billing10k.csv
+   124/3,   1001, binary_config/Scrum1k.csv
+   124/3,  10001, binary_config/Scrum10k.csv
+   124/3, 100001, binary_config/Scrum100k.csv
+   128/3,  10001, binary_config/FFM-125-25-0.50-SAT-1.csv
+   256/3,  10001, binary_config/FFM-250-50-0.50-SAT-1.csv
+   510/3,  10001, binary_config/FFM-500-100-0.50-SAT-1.csv
+   511/3,  10001, binary_config/FM-500-100-0.75-SAT-1.csv
+   511/3,  10001, binary_config/FM-500-100-1.00-SAT-1.csv
+   513/3,  10001, binary_config/FM-500-100-0.50-SAT-1.csv
+   517/3,  10001, binary_config/FM-500-100-0.25-SAT-1.csv
+  1044/3,  10001, binary_config/FFM-1000-200-0.50-SAT-1.csv
