@@ -1,52 +1,45 @@
-BL time,	0.028
+BL time,	0.052
 anova time,	0.001
-shap time,	37.624
-rlf time,	0.374
+shap time,	18.804
+rlf time,	0.289
 ---------------------
-Number of features selected by BL, 3
-BL features,	Max_spout, Counters, Spliters
-shap features,	Max_spout, Counters, Spliters
-anova features,	Max_spout, Counters, Spliters
-rlf features,	Spliters, Counters, Max_spout
+Number of features selected by BL, 2
+BL features,	Max_spout, Spliters
+shap features,	Max_spout, Counters
+anova features,	Max_spout, Counters
+rlf features,	Spliters, Counters
 ---------------------
-linear time, 0.918
-rf time, 10.325
-svr time, 0.984
-ann time, 16.999
-lgbm time, 2.771
-bl time, 4.176
-asIs time, 0.007
+linear time, 0.973
+rf time, 9.556
+svr time, 1.011
+ann time, 15.422
+lgbm time, 2.652
 #
- 0,                      asIs, -12.00, 56.00,          -------    |  *--------------  
+ 0,                linear,RLF, 94.00,  1.00,                     |        -------*-  
+ 0,                    rf,RLF, 94.00, 16.00,                     |       --      *   
+ 0,                   svr,RLF, 94.00, 19.00,                     |   ----        *   
+ 0,                   ann,RLF, 94.00,  6.00,                     |    ---------- *   
+ 0,                  lgbm,RLF, 94.00, 17.00,                     |    ----       *   
 #
- 1,                 linear,BL, 95.00,  4.00,                     |                  *
- 1,               linear,SHAP, 95.00,  4.00,                     |                  *
- 1,                linear,RLF, 95.00,  4.00,                     |                  *
- 1,                linear,all, 95.00,  4.00,                     |                  *
- 1,              linear,anova, 95.00,  4.00,                     |                  *
- 1,                 ann,anova, 95.00,  4.00,                     |               -- *
- 1,                    ann,BL, 98.00,  4.00,                     |                - *
- 1,                  ann,SHAP, 98.00,  4.00,                     |                  *
- 1,                   ann,RLF, 98.00,  4.00,                     |               -- *
- 1,                   ann,all, 98.00,  4.00,                     |                  *
+ 1,                linear,all, 95.00,  4.00,                     |              -*   
+ 1,                 linear,BL, 96.00,  1.00,                     |                *  
 #
- 2,                     rf,BL, 99.00,  1.00,                     |                  *
- 2,                   rf,SHAP, 99.00,  1.00,                     |                  *
- 2,                    rf,RLF, 99.00,  1.00,                     |                  *
- 2,                    rf,all, 99.00,  1.00,                     |                  *
- 2,                  rf,anova, 99.00,  1.00,                     |                  *
- 2,                    svr,BL, 99.00,  2.00,                     |                  *
- 2,                  svr,SHAP, 99.00,  2.00,                     |                  *
- 2,                   svr,RLF, 99.00,  2.00,                     |                  *
- 2,                   svr,all, 99.00,  2.00,                     |                  *
- 2,                 svr,anova, 99.00,  2.00,                     |                  *
- 2,                   lgbm,BL, 99.00,  2.00,                     |                  *
- 2,                 lgbm,SHAP, 99.00,  2.00,                     |                  *
- 2,                  lgbm,RLF, 99.00,  2.00,                     |                  *
- 2,                  lgbm,all, 99.00,  2.00,                     |                  *
- 2,                lgbm,anova, 99.00,  2.00,                     |                  *
- 2,                     bl,BL, 99.00,  1.00,                     |                  *
- 2,                   bl,SHAP, 99.00,  1.00,                     |                  *
- 2,                    bl,RLF, 99.00,  1.00,                     |                  *
- 2,                    bl,all, 99.00,  1.00,                     |                  *
- 2,                  bl,anova, 99.00,  1.00,                     |                  *
+ 2,                  ann,SHAP, 97.00,  4.00,                     |         ------ *  
+ 2,                   ann,all, 98.00,  4.00,                     |         ------  * 
+ 2,                 ann,anova, 98.00,  4.00,                     |       --------  * 
+#
+ 3,               linear,SHAP, 99.00,  2.00,                     |               - * 
+ 3,              linear,anova, 99.00,  2.00,                     |               - * 
+ 3,                     rf,BL, 99.00,  1.00,                     |                 * 
+ 3,                   rf,SHAP, 99.00,  1.00,                     |                 * 
+ 3,                    rf,all, 99.00,  1.00,                     |                 * 
+ 3,                  rf,anova, 99.00,  1.00,                     |                 * 
+ 3,                    svr,BL, 99.00,  2.00,                     |                 * 
+ 3,                  svr,SHAP, 99.00,  2.00,                     |                 * 
+ 3,                   svr,all, 99.00,  2.00,                     |                 * 
+ 3,                 svr,anova, 99.00,  2.00,                     |                 * 
+ 3,                    ann,BL, 99.00,  1.00,                     |       ----------* 
+ 3,                   lgbm,BL, 99.00,  2.00,                     |                 * 
+ 3,                 lgbm,SHAP, 99.00,  2.00,                     |                 * 
+ 3,                  lgbm,all, 99.00,  2.00,                     |                 * 
+ 3,                lgbm,anova, 99.00,  2.00,                     |                 * 

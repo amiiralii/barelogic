@@ -48,11 +48,11 @@ def split_data(data, r_seed = 42, test_size=0.2):
 def run_bl_explainer(data):
     """Run BareLogic explainer and return feature importance"""
     #print('-------BL:-------')
-    #the.Stop = 32
     t1 = time.time()
     stts = []
     count = 0
-    for _ in range(15):
+    rpt = 5
+    for _ in range(rpt):
         model = actLearn(data, shuffle=True)
         nodes = tree(model.best.rows + model.rest.rows, data)
         #showTree(nodes)
@@ -68,7 +68,7 @@ def run_bl_explainer(data):
         bl_FI[f] = bl_FI[f] / w
     bl_FI["explainer"] = "BL"
     bl_FI["run_time"] = (time.time()-t1)
-    return bl_FI, round( count / 25 )
+    return bl_FI, round( count / rpt )
 
 def distribution_plot(labeled, data, features, sample):
     cols = [d.txt for d in data.cols.all]
@@ -478,7 +478,8 @@ def main():
     dataset = sys.argv[1]
     raw_data = Data(csv(dataset))
     data, test_data = split_data(raw_data)
-    stp = len(data.rows) // 10  if len(data.cols.x) > 20 and len(data.rows) > 1000 else 50
+    #stp = len(data.rows) // 10  if len(data.cols.x) > 20 and len(data.rows) > 1000 else 50
+    stp = min(30, len(data.rows) // 10)
     the.Stop = stp
     the.acq = "xploit"
     #try:
@@ -527,7 +528,8 @@ def main():
     top_features = get_features(feature_importance, feature_counts)
     records = []
     #for regressor in ["linear", "rf", "bl"]:
-    for regressor in ["linear", "rf", "svr", "ann", "lgbm", "bl", "asIs"]:
+    #for regressor in ["linear", "rf", "svr", "ann", "lgbm", "bl", "asIs"]:
+    for regressor in ["linear", "rf", "svr", "ann", "lgbm"]:
         bl, shap, rlf, all, anova = [], [], [], [], []
         asIs = []
         t1 = time.time()

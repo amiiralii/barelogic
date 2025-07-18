@@ -1,57 +1,46 @@
-BL time,	0.069
+BL time,	0.421
 anova time,	0.002
-shap time,	23.347
-rlf time,	34.909
+shap time,	23.634
+rlf time,	36.096
 ---------------------
-Number of features selected by BL, 6
-BL features,	ProcessorCount, Level, compression, compressionZpaq, compressionLzo, compressionGzip
-shap features,	ProcessorCount, compression, compressionLzo, compressionZpaq, Level, compressionBzip2
-anova features,	ProcessorCount, compression, compressionBzip2, compressionLzo, compressionZpaq, compressionGzip
-rlf features,	compression, encryption, compressionBzip2, compressionGzip, compressionLzo, compressionZpaq
+Number of features selected by BL, 5
+BL features,	Level, ProcessorCount, compressionLzo, compression, MaxRam
+shap features,	ProcessorCount, compression, compressionLzo, compressionZpaq, Level
+anova features,	ProcessorCount, compression, compressionBzip2, compressionLzo, compressionZpaq
+rlf features,	compression, encryption, compressionBzip2, compressionGzip, compressionLzo
 ---------------------
-linear time, 24.255
-rf time, 51.078
-svr time, 73.321
-ann time, 53.322
-lgbm time, 28.323
-bl time, 23.32
-asIs time, 0.219
+linear time, 25.141
+rf time, 53.149
+svr time, 81.259
+ann time, 62.061
+lgbm time, 29.133
 #
- 0,                      asIs, 31.00, 107.00,            -------  |        *    ----  
+ 0,                 linear,BL, 85.00,  4.00,               -   * |-                  
+ 0,                    rf,RLF, 85.00,  3.00,             ---   * |-                  
+ 0,                  svr,SHAP, 85.00,  4.00,             ---   * |-                  
+ 0,                   svr,RLF, 85.00,  2.00,             ----- * |---                
+ 0,                   ann,RLF, 85.00,  2.00,                ---* |-                  
+ 0,                linear,RLF, 86.00,  2.00,                ---  *-                  
+ 0,                 svr,anova, 86.00,  4.00,            ----     *-------------      
+ 0,                    ann,BL, 86.00,  4.00,             ---     *-                  
+ 0,                   ann,all, 86.00,  5.00,      ------------   *   --------------  
+ 0,                  lgbm,RLF, 86.00,  2.00,                ---  *---                
 #
- 1,                 linear,BL, 85.00,  4.00,                     |               -*  
- 1,               linear,SHAP, 85.00,  4.00,                     |                *  
- 1,                   svr,RLF, 85.00,  3.00,                     |                *  
- 1,                   ann,RLF, 85.00,  1.00,                     |                *  
- 1,                  lgbm,RLF, 85.00,  3.00,                     |                *  
- 1,                linear,RLF, 86.00,  3.00,                     |                *  
- 1,                    rf,RLF, 86.00,  2.00,                     |                *  
- 1,                    bl,RLF, 86.00,  8.00,                     |             -- *- 
+ 1,               linear,SHAP, 87.00,  4.00,               -     |*                  
+ 1,                linear,all, 87.00,  4.00,                     |*                  
+ 1,              linear,anova, 87.00,  4.00,            ----     |*                  
+ 1,                    svr,BL, 87.00,  3.00,             ------  |*-------------     
+ 1,                  ann,SHAP, 87.00, 12.00,               ------|*                - 
+ 1,                 ann,anova, 87.00,  3.00,                ---  |*----------------  
 #
- 2,                linear,all, 87.00,  4.00,                     |                *  
- 2,              linear,anova, 87.00,  1.00,                     |                *  
- 2,                  svr,SHAP, 87.00,  3.00,                     |                *- 
- 2,                    ann,BL, 87.00,  3.00,                     |                *- 
- 2,                  ann,SHAP, 87.00, 12.00,                     |                *  
+ 2,                   svr,all, 96.00,  0.00,                     |             *     
 #
- 3,                   ann,all, 88.00,  8.00,                     |                 * 
- 3,                 ann,anova, 88.00, 10.00,                     |                 * 
+ 3,                     rf,BL, 99.00,  1.00,                     |                 * 
+ 3,                  rf,anova, 99.00,  1.00,                     |                 * 
+ 3,                 lgbm,SHAP, 99.00,  1.00,                     |                 * 
+ 3,                lgbm,anova, 99.00,  1.00,                     |              ---* 
 #
- 4,                    svr,BL, 94.00,  2.00,                     |                  *
-#
- 5,                   svr,all, 96.00,  0.00,                     |                  *
- 5,                  bl,anova, 96.00, 10.00,                     |                - *
- 5,                   bl,SHAP, 98.00,  4.00,                     |                --*
-#
- 6,                  rf,anova, 99.00,  0.00,                     |                  *
- 6,                 svr,anova, 99.00,  1.00,                     |                  *
- 6,                lgbm,anova, 99.00,  0.00,                     |                  *
- 6,                     bl,BL, 99.00,  9.00,                     |                - *
- 6,                    bl,all, 99.00,  9.00,                     |                - *
-#
- 7,                     rf,BL, 100.00,  1.00,                     |                  *
- 7,                   rf,SHAP, 100.00,  1.00,                     |                  *
- 7,                    rf,all, 100.00,  0.00,                     |                  *
- 7,                   lgbm,BL, 100.00,  1.00,                     |                  *
- 7,                 lgbm,SHAP, 100.00,  1.00,                     |                  *
- 7,                  lgbm,all, 100.00,  0.00,                     |                  *
+ 4,                   rf,SHAP, 100.00,  1.00,                     |                  *
+ 4,                    rf,all, 100.00,  0.00,                     |                 -*
+ 4,                   lgbm,BL, 100.00,  1.00,                     |                  *
+ 4,                  lgbm,all, 100.00,  0.00,                     |                 -*

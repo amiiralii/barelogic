@@ -1,0 +1,56 @@
+BL time,	0.137
+anova time,	0.002
+shap time,	22.291
+rlf time,	9.3
+---------------------
+Number of features selected by BL, 8
+BL features,	TEAM, PREC, PMAT, DOCU, PVOL, RUSE, RELY, ARCH
+shap features,	TIME, SCED, ACAP, PCAP, TOOL, DOCU, SITE, PREC
+anova features,	TIME, SCED, PCAP, ACAP, TOOL, PREC, PCON, DOCU
+rlf features,	STOR, ARCH, PMAT, PREC, SITE, DOCU, TOOL, SCED
+---------------------
+linear time, 9.493
+rf time, 36.542
+svr time, 13.608
+ann time, 24.469
+lgbm time, 12.147
+bl time, 20.812
+asIs time, 0.06
+#
+ 0,                      asIs, 15.00, 38.00,        ------      *| -----------       
+#
+ 1,                    svr,BL, 45.00, 24.00,                     | --- *   -         
+ 1,                  lgbm,RLF, 51.00, 18.00,                     |  --- *  -----     
+#
+ 2,                    rf,RLF, 52.00, 19.00,                     | ---  * -----      
+ 2,                  svr,SHAP, 52.00, 15.00,                     |  --- * -----      
+ 2,                   svr,RLF, 52.00, 18.00,                     | ---  *----        
+ 2,                 svr,anova, 52.00, 32.00,                     |   -- *    ---     
+ 2,                   svr,all, 55.00, 19.00,                     | ---   *-----      
+ 2,                   rf,SHAP, 56.00, 17.00,                     | ---   *---        
+ 2,                    rf,all, 56.00,  4.00,                     |   --- *-----      
+ 2,                  ann,SHAP, 56.00, 30.00,                     |    -  *   --      
+ 2,                lgbm,anova, 56.00, 24.00,                     |   --- *   --      
+ 2,                    bl,RLF, 56.00, 23.00,                     | ----- *   ---     
+#
+ 3,                  rf,anova, 57.00, 20.00,                     |   ----*   --      
+ 3,                 ann,anova, 57.00, 30.00,                     |  ---  *   --      
+ 3,                 lgbm,SHAP, 57.00, 31.00,                     | ---   *  -        
+ 3,                linear,RLF, 58.00, 27.00,                     | -     *------     
+ 3,                     rf,BL, 58.00, 14.00,                     |  ---- * ----      
+ 3,                  lgbm,all, 58.00, 21.00,                     |  -----*   --      
+#
+ 4,                   ann,RLF, 59.00, 14.00,                     |  ----  *----      
+ 4,                   lgbm,BL, 59.00, 16.00,                     |   --   *----      
+ 4,                    ann,BL, 60.00, 12.00,                     |  ----  *--        
+ 4,                     bl,BL, 60.00, 19.00,                     |    --- *  --      
+ 4,                    bl,all, 60.00, 19.00,                     |    --- *  --      
+ 4,                 linear,BL, 61.00, 36.00,                     |   -    *          
+ 4,               linear,SHAP, 63.00, 16.00,                     |     --- * ---     
+ 4,              linear,anova, 63.00, 19.00,                     | ------  * ---     
+ 4,                   bl,SHAP, 63.00, 15.00,                     | -----   *----     
+ 4,                  bl,anova, 63.00, 21.00,                     |     --- *  ----   
+#
+ 5,                   ann,all, 65.00, 14.00,                     |      -- * --      
+#
+ 6,                linear,all, 75.00, 24.00,                     |     ----  *  -    

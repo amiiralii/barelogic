@@ -1,0 +1,52 @@
+BL time,	0.069
+anova time,	0.002
+shap time,	37.274
+rlf time,	8.485
+---------------------
+Number of features selected by BL, 6
+BL features,	ref_1, no_mbtree, rc_lookahead_60, no_8x8dct, no_cabac, no_fast_pskip
+shap features,	ref_9, ref_1, no_mixed_refs, no_fast_pskip, no_mbtree, no_8x8dct
+anova features,	no_mixed_refs, no_fast_pskip, no_mbtree, no_8x8dct, no_cabac, ref_1
+rlf features,	ref_1, ref_9, no_mixed_refs, ref_5, no_fast_pskip, no_mbtree
+---------------------
+linear time, 6.64
+rf time, 18.979
+svr time, 8.786
+ann time, 25.84
+lgbm time, 9.258
+bl time, 8.898
+asIs time, 0.04
+#
+ 0,                      asIs, 39.00, 106.00,             --------|         *      -  
+#
+ 1,                    bl,RLF, 99.00,  1.00,                     |                 -*
+#
+ 2,                 linear,BL, 100.00,  0.00,                     |                  *
+ 2,               linear,SHAP, 100.00,  1.00,                     |                  *
+ 2,                linear,RLF, 100.00,  1.00,                     |                  *
+ 2,                linear,all, 100.00,  1.00,                     |                  *
+ 2,              linear,anova, 100.00,  1.00,                     |                  *
+ 2,                     rf,BL, 100.00,  0.00,                     |                  *
+ 2,                   rf,SHAP, 100.00,  0.00,                     |                  *
+ 2,                    rf,RLF, 100.00,  1.00,                     |                  *
+ 2,                    rf,all, 100.00,  0.00,                     |                  *
+ 2,                  rf,anova, 100.00,  0.00,                     |                  *
+ 2,                    svr,BL, 100.00,  1.00,                     |                  *
+ 2,                  svr,SHAP, 100.00,  0.00,                     |                  *
+ 2,                   svr,RLF, 100.00,  0.00,                     |                  *
+ 2,                   svr,all, 100.00,  0.00,                     |                  *
+ 2,                 svr,anova, 100.00,  0.00,                     |                  *
+ 2,                    ann,BL, 100.00,  0.00,                     |                  *
+ 2,                  ann,SHAP, 100.00,  0.00,                     |                  *
+ 2,                   ann,RLF, 100.00,  1.00,                     |                  *
+ 2,                   ann,all, 100.00,  0.00,                     |                  *
+ 2,                 ann,anova, 100.00,  1.00,                     |                  *
+ 2,                   lgbm,BL, 100.00,  0.00,                     |                  *
+ 2,                 lgbm,SHAP, 100.00,  0.00,                     |                  *
+ 2,                  lgbm,RLF, 100.00,  1.00,                     |                  *
+ 2,                  lgbm,all, 100.00,  0.00,                     |                  *
+ 2,                lgbm,anova, 100.00,  0.00,                     |                  *
+ 2,                     bl,BL, 100.00,  0.00,                     |                  *
+ 2,                   bl,SHAP, 100.00,  1.00,                     |                  *
+ 2,                    bl,all, 100.00,  0.00,                     |                  *
+ 2,                  bl,anova, 100.00,  0.00,                     |                  *
