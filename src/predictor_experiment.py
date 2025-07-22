@@ -431,8 +431,7 @@ def exp2(selected_raw_data, data, test_data, b4, top_pick = 5, stop = 32):
     nodes = tree(model.best.rows + model.rest.rows,data)
     guesses = sorted([(leaf(nodes,row).ys, i) for i, row in enumerate(test_data.rows)],key=first)
     acc = win(sorted([unlabeled_y.iloc[i].values for _, i in guesses[:top_pick]])[0][0])
-    vals = treeFeatureImportance(nodes)
-    return acc, len([i for i in vals.values() if i > 0])
+    return acc, path(nodes, test_data.rows[guesses[0][1]], set())
 
 def find_optimal(selected_raw_data, test_data, b4, picks):
     def win(x): return round(100*(1 - (x - b4.lo)/(b4.mu - b4.lo)))
@@ -489,6 +488,7 @@ def main():
     repeats = 20
     top_pick = 10
     records = []
+    used_features = []
     print("BL Labeling Budget,", top_pick + stp)
     print("---------------------")
     for regressor in ["linear", "rf", "svr", "ann", "lgbm", "bl", "asIs"]:
@@ -504,8 +504,9 @@ def main():
                 selected_raw_data = Data(csv(dataset))
                 data, test_data = split_data(selected_raw_data, random_seed)
                 b4    = yNums(data.rows, selected_raw_data)
-                acc, _ = exp2(selected_raw_data, data, test_data, b4, top_pick, stp)
+                acc, uf = exp2(selected_raw_data, data, test_data, b4, top_pick, stp)
                 eff.append(acc)
+                used_features.append(len(uf))
             else:
                 selected_raw_data = Data(csv(dataset))
                 data, test_data = split_data(selected_raw_data, random_seed)
@@ -516,6 +517,9 @@ def main():
         aff_acc = stats.SOME(txt=f"{regressor}")
         aff_acc.adds(eff)
         records.append(aff_acc)
+    print("---------------------")
+    print("features present in best path,", sorted(used_features)[10])
+    print("---------------------")
     stats.report(records)        
 
 if __name__ == "__main__":

@@ -13,7 +13,20 @@ the.acq = "xploit"
 model = actLearn(data,shuffle=True)
 nodes = tree(model.best.rows + model.rest.rows,data)
 showTree(nodes)
-vals = treeFeatureImportance(nodes)
-size = len([i for i in vals.values() if i > 0])
-print(size)
-print(vals)
+
+guesses = sorted([(leaf(nodes,row).ys, i) for i, row in enumerate(test_data.rows)],key=first)
+print(guesses[0])
+print()
+used_features = path(nodes, test_data.rows[guesses[0][1]], set())
+print(used_features)
+#vals = treeFeatureImportance(nodes)
+#size = len([i for i in vals.values() if i > 0])
+#print(size)
+#print(vals)
+
+
+
+
+
+
+

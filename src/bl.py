@@ -247,6 +247,13 @@ def leaf(node, row):
       return leaf(kid,row)
   return node
 
+def path(node, row, route):
+  for kid in node.kids or []:
+    if kid.decision(row): 
+      route.add(kid.xplain.split(" ")[0])
+      return path(kid,row, route)
+  return route
+
 def treeMDI(node, lvl=0):
   if not node.kids: return 0
   kidMDIs = 0
