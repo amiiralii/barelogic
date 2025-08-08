@@ -1,0 +1,48 @@
+BL Labeling Budget, 150
+---------------------
+BL time,	0.45
+anova time,	0.002
+shap time,	13.563
+rlf time,	24.447
+---------------------
+Number of features selected by BL, 6
+BL features,	Pre, smoother_GSACBE, cGS_IP_CG, Post, NumCore, smoother_GSRB
+shap features,	smoother_GSACBE, Pre, Post, smoother_JAC, smoother_GS, smoother_GSAC
+anova features,	smoother_GSACBE, Pre, smoother_GS, Post, smoother_JAC, smoother_GSAC
+rlf features,	cGS_RED_AMG, smoother_GSRBAC, smoother, cGS_IP_CG, NumCore, Post
+---------------------
+linear time, 22.228
+rf time, 48.754
+svr time, 27.631
+ann time, 45.252
+lgbm time, 26.175
+#
+ 0,                    rf,RLF, 87.00,  7.00,    -------------  * |       -----       
+#
+ 1,                linear,RLF, 95.00,  1.00,                     |----------*        
+ 1,                   ann,RLF, 95.00,  4.00,                   --|----      *-       
+ 1,                  lgbm,RLF, 95.00,  9.00,                ---  |          *        
+#
+ 2,                   svr,RLF, 96.00,  1.00,                     |----------  *-     
+#
+ 3,                    ann,BL, 99.00,  1.00,                     |              -  * 
+ 3,                  ann,SHAP, 99.00,  1.00,                     |            -----* 
+ 3,                 ann,anova, 99.00,  1.00,                     |            -----* 
+#
+ 4,                 linear,BL, 100.00,  0.00,                     |                  *
+ 4,               linear,SHAP, 100.00,  0.00,                     |                  *
+ 4,                linear,all, 100.00,  0.00,                     |                  *
+ 4,              linear,anova, 100.00,  0.00,                     |                  *
+ 4,                     rf,BL, 100.00,  0.00,                     |                 -*
+ 4,                   rf,SHAP, 100.00,  0.00,                     |                 -*
+ 4,                    rf,all, 100.00,  0.00,                     |                 -*
+ 4,                  rf,anova, 100.00,  0.00,                     |                 -*
+ 4,                    svr,BL, 100.00,  1.00,                     |                  *
+ 4,                  svr,SHAP, 100.00,  0.00,                     |                  *
+ 4,                   svr,all, 100.00,  0.00,                     |                  *
+ 4,                 svr,anova, 100.00,  0.00,                     |                  *
+ 4,                   ann,all, 100.00,  1.00,                     |               -- *
+ 4,                   lgbm,BL, 100.00,  0.00,                     |                  *
+ 4,                 lgbm,SHAP, 100.00,  0.00,                     |                  *
+ 4,                  lgbm,all, 100.00,  0.00,                     |                  *
+ 4,                lgbm,anova, 100.00,  0.00,                     |                  *

@@ -1,0 +1,49 @@
+BL Labeling Budget, 150
+---------------------
+BL time,	0.79
+anova time,	0.003
+shap time,	12.83
+rlf time,	76.918
+---------------------
+Number of features selected by BL, 8
+BL features,	SCED, DATA, ACAP, PMAT, RUSE, ETAT, RESL, AEXP
+shap features,	SCED, PMAT, KLOC, TIME, DATA, RUSE, STOR, PR
+anova features,	SCED, PMAT, KLOC, SITE, RELY, PCAP, PVOL, TIME
+rlf features,	SCED, PMAT, KLOC, DATA, AA, ACAP, AEXP, B
+---------------------
+linear time, 150.12
+rf time, 861.505
+svr time, 1238.717
+ann time, 214.731
+lgbm time, 167.497
+#
+ 0,                   ann,RLF, 73.00,  6.00,              --- *  |----------         
+#
+ 1,                    ann,BL, 76.00,  3.00,              ----- *|----------         
+ 1,                  ann,SHAP, 77.00,  6.00,                     * -------           
+#
+ 2,                  rf,anova, 79.00,  6.00,                    -| *   --            
+ 2,                 ann,anova, 80.00, 14.00,            -------  | *       -------   
+ 2,                    svr,BL, 81.00,  9.00,                  ---|  *   ---          
+ 2,                   lgbm,BL, 82.00,  9.00,                -----|   *   -           
+ 2,                lgbm,anova, 82.00,  8.00,                     |-  *   -           
+ 2,                   svr,RLF, 83.00,  9.00,              -------|-   *   ------     
+ 2,                     rf,BL, 84.00,  4.00,                  ---|-----*  ------     
+ 2,                  svr,SHAP, 84.00, 11.00,                ---- |     * ---         
+#
+ 3,                   rf,SHAP, 86.00,  3.00,                     |  --- * ---        
+ 3,                    rf,RLF, 86.00, 11.00,                  ---|-     *   -        
+ 3,                   svr,all, 86.00,  8.00,                   --|-     *----        
+ 3,                 svr,anova, 86.00, 12.00,                  -  |      *---         
+#
+ 4,                   ann,all, 87.00,  6.00,                     | ----  *  ------   
+ 4,                  lgbm,RLF, 87.00,  3.00,                     | ----  *----       
+ 4,                 linear,BL, 88.00,  6.00,                     | ----   * ----     
+ 4,                linear,RLF, 88.00,  4.00,                     | -----  *          
+ 4,              linear,anova, 88.00, 11.00,                   --|-       *          
+ 4,                 lgbm,SHAP, 88.00,  1.00,                     | ------ *-----     
+ 4,                  lgbm,all, 88.00,  3.00,                     |       -* -------  
+ 4,                    rf,all, 89.00,  3.00,                     |      -  *----     
+#
+ 5,               linear,SHAP, 91.00,  7.00,                     |      --  *        
+ 5,                linear,all, 92.00,  4.00,                     |      ---- *  ---  

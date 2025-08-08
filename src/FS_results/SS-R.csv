@@ -1,0 +1,48 @@
+BL Labeling Budget, 150
+---------------------
+BL time,	0.441
+anova time,	0.002
+shap time,	12.488
+rlf time,	20.455
+---------------------
+Number of features selected by BL, 7
+BL features,	Threads, twoPass, columnTiling, bestQuality, rtQuality, constantBitrate, goodQuality
+shap features,	bestQuality, columnTiling, Threads, autoAltRef, goodQuality, twoPass, ArnrMaxFrames
+anova features,	bestQuality, columnTiling, quality, rtQuality, Threads, autoAltRef, twoPass
+rlf features,	ArnrMaxFrames, autoAltRef, constantBitrate, twoPass, goodQuality, columnTiling, noAltRef
+---------------------
+linear time, 15.779
+rf time, 34.882
+svr time, 21.673
+ann time, 35.628
+lgbm time, 19.674
+#
+ 0,                   svr,RLF, 60.00,  0.00,      -*             |                   
+#
+ 1,                  ann,SHAP, 80.00,  4.00,                    -|* ---              
+#
+ 2,                linear,all, 81.00,  2.00,                     |-*---              
+ 2,                    ann,BL, 81.00,  5.00,                   --| *  -              
+ 2,                   ann,all, 81.00,  3.00,                    -| *---              
+ 2,                 ann,anova, 81.00,  4.00,            ---------| * ----            
+ 2,                 lgbm,SHAP, 81.00,  5.00,                     | *  ---            
+#
+ 3,                     rf,BL, 82.00,  3.00,                     |  *--------        
+ 3,                   rf,SHAP, 82.00,  5.00,                     |  * -              
+ 3,                    rf,RLF, 82.00,  2.00,                     |  *----            
+ 3,                   ann,RLF, 82.00,  4.00,                     |  *---------       
+ 3,                   lgbm,BL, 82.00,  3.00,                     |--* -------        
+ 3,                lgbm,anova, 82.00,  7.00,                     |- *   ------       
+#
+ 4,               linear,SHAP, 83.00,  5.00,                     |- *  --------      
+ 4,                  rf,anova, 83.00,  3.00,                     |--* -------        
+ 4,                    svr,BL, 83.00,  6.00,                     |- *  --------      
+ 4,                  svr,SHAP, 83.00,  6.00,                     |- *  -------       
+ 4,                   svr,all, 83.00,  6.00,                     |- *  --------      
+ 4,                 svr,anova, 83.00,  7.00,                     |  *  --------      
+ 4,                linear,RLF, 84.00,  6.00,                     |-  * ------------- 
+ 4,                    rf,all, 85.00, 12.00,                     | -  *      -       
+ 4,                  lgbm,all, 85.00,  7.00,                     |--  *  ----------- 
+ 4,                 linear,BL, 86.00,  7.00,                     |-    *-------      
+ 4,              linear,anova, 87.00,  8.00,                     |-    * ------      
+ 4,                  lgbm,RLF, 87.00,  5.00,                     |  -  * ----        

@@ -1,0 +1,49 @@
+BL Labeling Budget, 150
+---------------------
+BL time,	1.025
+anova time,	0.006
+shap time,	16.597
+rlf time,	242.149
+---------------------
+Number of features selected by BL, 8
+BL features,	Crf, B_bias, Aq_strength, Ipratio, Threads, No_asm, Bframes, Ref
+shap features,	Crf, No_asm, Seek, No_mbtree, Qcomp, Qp, Ipratio, Threads
+anova features,	No_asm, No_mbtree, Seek, Ipratio, Qp, Threads, Bframes, Rc_lookahead
+rlf features,	Seek, Qp, Threads, Keyint, Rc_lookahead, Bframes, Scenecut, B_bias
+---------------------
+linear time, 435.43
+rf time, 1072.911
+svr time, 903.126
+ann time, 665.064
+lgbm time, 462.287
+#
+ 0,                 linear,BL, -9.00, 50.00, ----- *             |-                  
+ 0,               linear,SHAP, -9.00, 50.00, ----- *             |-                  
+ 0,                linear,all, -9.00, 50.00, ----- *             |-                  
+#
+ 1,                   ann,RLF, 31.00, 18.00,                 -- *|   --------        
+#
+ 2,                linear,RLF, 43.00,  6.00,                     |  *                
+#
+ 3,                    svr,BL, 50.00,  0.00,                     |     *             
+ 3,                  svr,SHAP, 50.00,  0.00,                     |     *             
+ 3,                   svr,all, 50.00,  0.00,                     |     *             
+ 3,                  ann,SHAP, 50.00,  9.00,                     |    -* ---         
+#
+ 4,                 ann,anova, 52.00, 11.00,                     |  -- * --          
+ 4,                   ann,all, 55.00,  9.00,                     |      *--          
+ 4,              linear,anova, 56.00,  6.00,                     |  --- *--          
+ 4,                    ann,BL, 57.00, 10.00,                     |-----  *---        
+#
+ 5,                     rf,BL, 81.00,  0.00,                     |              -*-- 
+ 5,                   rf,SHAP, 81.00,  0.00,                     |               *-- 
+ 5,                    rf,RLF, 81.00,  0.00,                     |               *-- 
+ 5,                    rf,all, 81.00,  0.00,                     |               *-- 
+ 5,                  rf,anova, 81.00,  0.00,                     |               *-- 
+ 5,                   svr,RLF, 81.00,  0.00,                     |              -*-  
+ 5,                 svr,anova, 81.00,  6.00,                     |              -*   
+ 5,                   lgbm,BL, 81.00,  0.00,                     |              -*-- 
+ 5,                 lgbm,SHAP, 81.00,  0.00,                     |              -*-- 
+ 5,                  lgbm,RLF, 81.00,  0.00,                     |              -*-- 
+ 5,                  lgbm,all, 81.00,  0.00,                     |              -*-- 
+ 5,                lgbm,anova, 81.00,  2.00,                     |             - *-- 

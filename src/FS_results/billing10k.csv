@@ -1,0 +1,50 @@
+BL Labeling Budget, 150
+---------------------
+BL time,	2.066
+anova time,	0.02
+shap time,	7.409
+rlf time,	786.879
+---------------------
+Number of features selected by BL, 7
+BL features,	a15days, editcustomerdetails, cheque, testcase7, testcase3, one_time, reports
+shap features,	editcustomerdetails, testcase7, a15days, prepaid, none, testcase3, quaterly
+anova features,	subaccounts, editcustomerdetails, testcase7, customer, monthly, a15days, testcase18
+rlf features,	editcustomerdetails, testcase7, a15days, none, prepaid, subaccounts, monthly
+---------------------
+linear time, 270.133
+rf time, 337.949
+svr time, 264.854
+ann time, 323.011
+lgbm time, 256.831
+#
+ 0,                 svr,anova, 72.00, 10.00,      -------    *  -|--------           
+ 0,                  rf,anova, 74.00, 10.00,           ----    * |----------         
+ 0,                lgbm,anova, 74.00, 12.00,          ---      * |---------          
+ 0,                linear,RLF, 76.00,  7.00,           ------   *|----------         
+#
+ 1,              linear,anova, 77.00,  8.00,             ------- *    ----           
+ 1,                 ann,anova, 77.00,  6.00,              ------ *  ------           
+ 1,               linear,SHAP, 81.00,  8.00,                 --- |  * ------         
+ 1,                  svr,SHAP, 81.00,  8.00,                   --|  * --             
+ 1,                  ann,SHAP, 81.00,  2.00,             --------|  *-------------   
+ 1,                   ann,RLF, 82.00, 19.00,             --      |  *   --           
+#
+ 2,                    rf,RLF, 84.00, 10.00,                   --|--  *   -----      
+#
+ 3,                   svr,RLF, 85.00, 16.00,                     |    *   --         
+ 3,                    ann,BL, 85.00, 15.00,                 ----|    *     ------   
+ 3,                   ann,all, 85.00, 10.00,                 ----|--  *   --------   
+ 3,                  lgbm,RLF, 87.00, 10.00,                   --|--    * -----      
+ 3,                     rf,BL, 88.00,  7.00,                     |------*   ---      
+#
+ 4,                 linear,BL, 91.00, 12.00,                     |  --    *   ----   
+ 4,                 lgbm,SHAP, 91.00, 10.00,                     |------  *    ---   
+ 4,                    svr,BL, 92.00,  6.00,                     |  ----   *------   
+ 4,                   lgbm,BL, 92.00, 13.00,                     |----     *   ---   
+#
+ 5,                linear,all, 93.00, 13.00,                     |  --      *  ---   
+ 5,                   rf,SHAP, 94.00,  7.00,                     |      --  *        
+ 5,                    rf,all, 94.00,  4.00,                     |        --*  ---   
+ 5,                  lgbm,all, 94.00,  6.00,                     |        - *  ---   
+#
+ 6,                   svr,all, 98.00,  8.00,                     |        --   *     

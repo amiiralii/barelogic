@@ -1,0 +1,44 @@
+BL Labeling Budget, 150
+---------------------
+BL time,	0.209
+anova time,	0.001
+shap time,	15.515
+rlf time,	20.24
+---------------------
+Number of features selected by BL, 4
+BL features,	Max_depth, Min_sample_leaves, Min_impurity_decrease, N_estimators
+shap features,	criterion, N_estimators, Min_impurity_decrease, Min_sample_leaves
+anova features,	criterion, N_estimators, Min_impurity_decrease, Max_depth
+rlf features,	N_estimators, Min_impurity_decrease, Min_sample_leaves, Max_depth
+---------------------
+linear time, 42.977
+rf time, 184.563
+svr time, 5503.63
+ann time, 95.746
+lgbm time, 47.964
+#
+ 0,                 linear,BL, 100.00,  0.00,                     |                  *
+ 0,               linear,SHAP, 100.00,  0.00,                     |                  *
+ 0,                linear,RLF, 100.00,  0.00,                     |                  *
+ 0,                linear,all, 100.00,  0.00,                     |                  *
+ 0,              linear,anova, 100.00,  0.00,                     |                  *
+ 0,                     rf,BL, 100.00,  0.00, --------------------|------------------*
+ 0,                   rf,SHAP, 100.00,  0.00,                     |                  *
+ 0,                    rf,RLF, 100.00,  0.00, --------------------|------------------*
+ 0,                    rf,all, 100.00,  0.00,                     |                  *
+ 0,                  rf,anova, 100.00,  0.00,                     |                  *
+ 0,                    svr,BL, 100.00,  0.00,                     |                  *
+ 0,                  svr,SHAP, 100.00,  0.00,                     |                  *
+ 0,                   svr,RLF, 100.00,  0.00,                     |                  *
+ 0,                   svr,all, 100.00,  0.00,                     |                  *
+ 0,                 svr,anova, 100.00,  0.00,                     |                  *
+ 0,                    ann,BL, 100.00,  0.00,                     |                  *
+ 0,                  ann,SHAP, 100.00,  0.00,                     |                  *
+ 0,                   ann,RLF, 100.00,  0.00,       --------------|------------------*
+ 0,                   ann,all, 100.00,  0.00,                     |                  *
+ 0,                 ann,anova, 100.00,  0.00,                     |                  *
+ 0,                   lgbm,BL, 100.00,  0.00,                     |                  *
+ 0,                 lgbm,SHAP, 100.00,  0.00,                     |                  *
+ 0,                  lgbm,RLF, 100.00,  0.00,                     |                  *
+ 0,                  lgbm,all, 100.00,  0.00,                     |                  *
+ 0,                lgbm,anova, 100.00,  0.00,                     |                  *

@@ -1,0 +1,45 @@
+BL Labeling Budget, 150
+---------------------
+BL time,	0.483
+anova time,	0.003
+shap time,	15.97
+rlf time,	8.238
+---------------------
+Number of features selected by BL, 7
+BL features,	crypt_blowfish, memory_tables, compressed_script, txc_mvcc, small_log, encryption, txc_mvlocks
+shap features,	crypt_blowfish, memory_tables, encryption, cached_tables, crypt_aes, txc_locks, small_cache
+anova features,	crypt_blowfish, encryption, crypt_aes, transaction_control, cached_tables, memory_tables, table_type
+rlf features,	crypt_blowfish, encryption, crypt_aes, memory_tables, cached_tables, compressed_script, transaction_control
+---------------------
+linear time, 7.044
+rf time, 18.06
+svr time, 7.284
+ann time, 34.725
+lgbm time, 8.454
+#
+ 0,                 linear,BL, 99.00,  1.00,                     |     *             
+ 0,               linear,SHAP, 99.00,  1.00,                     |     *             
+ 0,                linear,RLF, 99.00,  1.00,                     |     *             
+ 0,                linear,all, 99.00,  1.00,                     |     *             
+ 0,              linear,anova, 99.00,  1.00,                     |     *             
+ 0,                   rf,SHAP, 99.00,  1.00,                     |     *             
+ 0,                  rf,anova, 99.00,  0.00,              -------|-----*------------ 
+ 0,                  svr,SHAP, 99.00,  0.00,                     |     *------------ 
+ 0,                   svr,all, 99.00,  0.00,                     |     *------------ 
+ 0,                 svr,anova, 99.00,  0.00,                     |     *             
+ 0,                    ann,BL, 99.00,  0.00,                     |     *------------ 
+ 0,                  ann,SHAP, 99.00,  0.00,                     |     *------------ 
+ 0,                   ann,RLF, 99.00,  1.00,                     |     *             
+ 0,                   ann,all, 99.00,  1.00,                     |     *             
+ 0,                 ann,anova, 99.00,  0.00,                     |     *------------ 
+ 0,                lgbm,anova, 99.00,  1.00,                     |     *             
+#
+ 1,                     rf,BL, 100.00,  1.00,                     |                  *
+ 1,                    rf,RLF, 100.00,  1.00,                     |                  *
+ 1,                    rf,all, 100.00,  1.00,                     |                  *
+ 1,                    svr,BL, 100.00,  0.00,                     |     -------------*
+ 1,                   svr,RLF, 100.00,  0.00,                     |     -------------*
+ 1,                   lgbm,BL, 100.00,  0.00,                     |     -------------*
+ 1,                 lgbm,SHAP, 100.00,  1.00,                     |                  *
+ 1,                  lgbm,RLF, 100.00,  0.00,                     |     -------------*
+ 1,                  lgbm,all, 100.00,  0.00,                     |     -------------*

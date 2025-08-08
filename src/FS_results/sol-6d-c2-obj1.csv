@@ -1,0 +1,46 @@
+BL Labeling Budget, 150
+---------------------
+BL time,	0.217
+anova time,	0.001
+shap time,	13.612
+rlf time,	9.319
+---------------------
+Number of features selected by BL, 5
+BL features,	Message_size, Topology_level, Bolts, Max_spout, Spouts
+shap features,	Message_size, Max_spout, Topology_level, Spouts, Bolts
+anova features,	Message_size, Topology_level, Spouts, Max_spout, Bolts
+rlf features,	Message_size, Spouts, Max_spout, Topology_level, Netty_min_wait
+---------------------
+linear time, 11.514
+rf time, 38.644
+svr time, 16.573
+ann time, 34.406
+lgbm time, 14.703
+#
+ 0,                 linear,BL, 93.00,  3.00,     *           ----|                   
+ 0,               linear,SHAP, 93.00,  3.00,     *           ----|                   
+ 0,                linear,RLF, 93.00,  3.00,     *           ----|                   
+ 0,                linear,all, 93.00,  3.00,     *           ----|                   
+ 0,              linear,anova, 93.00,  3.00,     *           ----|                   
+#
+ 1,                    rf,RLF, 94.00,  2.00,         *       ----|---                
+ 1,                    rf,all, 94.00,  1.00,         *   --------|---                
+ 1,                    svr,BL, 94.00,  1.00,         *   --------|-------            
+ 1,                  svr,SHAP, 94.00,  1.00,         *   --------|-------            
+ 1,                   svr,RLF, 94.00,  2.00,         *       ----|-----------        
+ 1,                   svr,all, 94.00,  0.00,     ----*-----------|-------            
+ 1,                 svr,anova, 94.00,  1.00,         *   --------|-------            
+ 1,                    ann,BL, 94.00,  2.00,     ----*       ----|---                
+ 1,                  ann,SHAP, 94.00,  1.00,     ----*   --------|                   
+ 1,                   ann,RLF, 94.00,  3.00,         *           |---                
+ 1,                   ann,all, 94.00,  2.00,     ----*       ----|-------            
+ 1,                 ann,anova, 94.00,  3.00,     ----*           |---                
+ 1,                   lgbm,BL, 94.00,  3.00,         *           |                   
+ 1,                 lgbm,SHAP, 94.00,  3.00,         *           |                   
+ 1,                  lgbm,RLF, 94.00,  3.00,         *           |---                
+ 1,                  lgbm,all, 94.00,  2.00,     ----*       ----|                   
+ 1,                lgbm,anova, 94.00,  3.00,         *           |                   
+#
+ 2,                     rf,BL, 95.00,  1.00,             *-------|---                
+ 2,                   rf,SHAP, 95.00,  1.00,             *-------|---                
+ 2,                  rf,anova, 95.00,  1.00,             *-------|---                

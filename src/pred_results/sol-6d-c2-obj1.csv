@@ -1,0 +1,22 @@
+BL Labeling Budget, 60
+---------------------
+linear time, 3.694
+rf time, 14.343
+svr time, 5.36
+ann time, 23.424
+lgbm time, 4.924
+bl time, 5.981
+asIs time, 0.183
+---------------------
+features present in best path, 4
+---------------------
+#
+ 0,                      asIs,  1.00, 121.00,                 ----|      *         -- 
+#
+ 1,                    linear, 93.00,  3.00,                     |                  *
+#
+ 2,                        rf, 94.00,  1.00,                     |                  *
+ 2,                       svr, 94.00,  0.00,                     |                  *
+ 2,                       ann, 94.00,  1.00,                     |                  *
+ 2,                      lgbm, 94.00,  2.00,                     |                  *
+ 2,                        bl, 94.00,  2.00,                     |                  *

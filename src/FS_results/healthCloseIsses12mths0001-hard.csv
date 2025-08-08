@@ -1,0 +1,47 @@
+BL Labeling Budget, 150
+---------------------
+BL time,	0.212
+anova time,	0.002
+shap time,	13.928
+rlf time,	19.801
+---------------------
+Number of features selected by BL, 5
+BL features,	Min_sample_leaves, Min_impurity_decrease, Max_depth, criterion, N_estimators
+shap features,	criterion, N_estimators, Min_sample_leaves, Min_impurity_decrease, Max_depth
+anova features,	criterion, N_estimators, Min_sample_leaves, Min_impurity_decrease, Max_depth
+rlf features,	N_estimators, Min_sample_leaves, criterion, Max_depth, Min_impurity_decrease
+---------------------
+linear time, 43.49
+rf time, 197.308
+svr time, 693.399
+ann time, 102.13
+lgbm time, 51.043
+#
+ 0,                 linear,BL, 36.00,  2.00,  *--                |                   
+ 0,               linear,SHAP, 36.00,  2.00,  *--                |                   
+ 0,                linear,RLF, 36.00,  2.00,  *--                |                   
+ 0,                linear,all, 36.00,  2.00,  *--                |                   
+ 0,              linear,anova, 36.00,  2.00,  *--                |                   
+#
+ 1,                    ann,BL, 38.00,  3.00, --*                 |                   
+ 1,                  ann,SHAP, 38.00,  4.00,  -* ---             |                   
+ 1,                   ann,RLF, 38.00,  4.00,  -*                 |                   
+ 1,                   ann,all, 38.00,  2.00, --*-                |                   
+ 1,                 ann,anova, 38.00,  3.00, --* -               |                   
+#
+ 2,                    svr,BL, 49.00,  9.00,       -   *   --    |                   
+ 2,                  svr,SHAP, 49.00,  9.00,       -   *   --    |                   
+ 2,                   svr,RLF, 49.00,  9.00,       -   *   --    |                   
+ 2,                   svr,all, 49.00,  9.00,       -   *   --    |                   
+ 2,                 svr,anova, 49.00,  9.00,       -   *   --    |                   
+#
+ 3,                     rf,BL, 57.00,  9.00,          -------*   | ------------      
+ 3,                   rf,SHAP, 57.00,  9.00,          -------*   | ------------      
+ 3,                    rf,RLF, 57.00,  9.00,          -------*   | ------------      
+ 3,                    rf,all, 57.00,  9.00,          -------*   | ------------      
+ 3,                  rf,anova, 57.00,  9.00,          -------*   | ------------      
+ 3,                   lgbm,BL, 66.00, 22.00,          -----      | *      -----      
+ 3,                 lgbm,SHAP, 66.00, 22.00,          -----      | *      -----      
+ 3,                  lgbm,RLF, 66.00, 22.00,          -----      | *      -----      
+ 3,                  lgbm,all, 66.00, 22.00,          -----      | *      -----      
+ 3,                lgbm,anova, 66.00, 22.00,          -----      | *      -----      

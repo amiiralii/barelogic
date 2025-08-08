@@ -1,0 +1,50 @@
+BL Labeling Budget, 75
+---------------------
+BL time,	0.057
+anova time,	0.001
+shap time,	8.52
+rlf time,	0.306
+---------------------
+Number of features selected by BL, 2
+BL features,	Counters, Max_spout
+shap features,	Counters, Max_spout
+anova features,	Counters, Spliters
+rlf features,	Max_spout, Spliters
+---------------------
+linear time, 1.073
+rf time, 9.586
+svr time, 1.103
+ann time, 13.791
+lgbm time, 2.784
+#
+ 0,                linear,RLF, 52.00,  5.00,           - *-      |                   
+#
+ 1,                   ann,RLF, 58.00,  7.00,            -   *----|----               
+#
+ 2,                  ann,SHAP, 73.00, 18.00,               ---   *  -------          
+#
+ 3,              linear,anova, 75.00, 25.00,               ---   |*    ---           
+ 3,                     rf,BL, 75.00, 37.00,          ----       |*    -------       
+ 3,                   rf,SHAP, 75.00, 37.00,          ----       |*    -------       
+#
+ 4,                linear,all, 76.00, 25.00,               ---   |*    ---           
+ 4,                 linear,BL, 78.00, 16.00,                  ---| *   ---           
+ 4,               linear,SHAP, 78.00, 16.00,                  ---| *   ---           
+ 4,                   ann,all, 79.00, 10.00,                -----| *-------          
+ 4,                    ann,BL, 80.00, 22.00,            -----    | *-------          
+#
+ 5,                    rf,RLF, 83.00,  8.00,                     |--*  -------       
+ 5,                    rf,all, 83.00,  8.00,                     |--*  -------       
+ 5,                  rf,anova, 83.00, 11.00,                     |- *  ------        
+ 5,                    svr,BL, 83.00, 18.00,                     |- *     -          
+ 5,                  svr,SHAP, 83.00, 18.00,                     |- *     -          
+ 5,                   svr,RLF, 83.00, 18.00,                  ---|- *     -          
+ 5,                   svr,all, 83.00, 18.00,                     |- *     -          
+ 5,                 svr,anova, 83.00, 18.00,                     |- *     -          
+ 5,                 ann,anova, 83.00, 15.00,              -----  |  *------          
+#
+ 6,                lgbm,anova, 97.00, 15.00,                     |--     *----       
+ 6,                   lgbm,BL, 98.00, 25.00,           ----------|        *---       
+ 6,                 lgbm,SHAP, 98.00, 25.00,           ----------|        *---       
+ 6,                  lgbm,RLF, 98.00, 19.00,                     |--      *-         
+ 6,                  lgbm,all, 98.00, 19.00,                     |--      *---       

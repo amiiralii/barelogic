@@ -1,0 +1,47 @@
+BL Labeling Budget, 150
+---------------------
+BL time,	0.358
+anova time,	0.001
+shap time,	15.909
+rlf time,	12.356
+---------------------
+Number of features selected by BL, 5
+BL features,	Max_spout, Sorters, Spouts, Emit_freq, Chunk_size
+shap features,	Max_spout, Sorters, Spouts, Message_size, Chunk_size
+anova features,	Max_spout, Sorters, Spouts, Chunk_size, Message_size
+rlf features,	Max_spout, Sorters, Spouts, Emit_freq, Chunk_size
+---------------------
+linear time, 15.775
+rf time, 49.246
+svr time, 32.702
+ann time, 43.253
+lgbm time, 19.887
+#
+ 0,                   rf,SHAP, 94.00,  2.00,            ------*  | ---------         
+ 0,                  rf,anova, 94.00,  2.00,            ------*  | ---------         
+ 0,                  svr,SHAP, 94.00,  1.00,               ---*  |-                  
+ 0,                   svr,all, 94.00,  1.00,      ------------*  |                   
+ 0,                 svr,anova, 94.00,  1.00,               ---*  |-                  
+#
+ 1,                    svr,BL, 95.00,  1.00,               ---   *-                  
+ 1,                   svr,RLF, 95.00,  1.00,               ---   *-                  
+ 1,                   ann,all, 95.00,  3.00,      ------------   *    ------         
+ 1,                 lgbm,SHAP, 95.00,  1.00,            ---------* ---------         
+ 1,                lgbm,anova, 95.00,  1.00,            ---------* ---------         
+#
+ 2,               linear,SHAP, 96.00,  6.00,               ------| *              -- 
+ 2,              linear,anova, 96.00,  6.00,               ------| *              -- 
+ 2,                     rf,BL, 96.00,  0.00,                     |-*--------------   
+ 2,                    rf,RLF, 96.00,  0.00,                     |-*--------------   
+ 2,                    rf,all, 96.00,  3.00,                  ---|-*        -------- 
+ 2,                    ann,BL, 96.00,  2.00,            ------   | *-----            
+ 2,                  ann,SHAP, 96.00,  1.00,               ------| *--------------   
+ 2,                   ann,RLF, 96.00,  2.00,            ------   | *-----            
+ 2,                 ann,anova, 96.00,  3.00,                  ---| *     ---------   
+ 2,                   lgbm,BL, 96.00,  2.00,               ------| *                 
+ 2,                  lgbm,RLF, 96.00,  2.00,               ------| *                 
+ 2,                  lgbm,all, 96.00,  0.00,                  ---|-*--------------   
+#
+ 3,                 linear,BL, 97.00,  5.00,               ------|-   *           -- 
+ 3,                linear,RLF, 97.00,  5.00,               ------|-   *           -- 
+ 3,                linear,all, 97.00,  5.00,               ------|-   *           -- 

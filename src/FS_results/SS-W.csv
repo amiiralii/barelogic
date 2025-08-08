@@ -1,0 +1,48 @@
+BL Labeling Budget, 150
+---------------------
+BL time,	0.525
+anova time,	0.006
+shap time,	15.322
+rlf time,	1395.449
+---------------------
+Number of features selected by BL, 7
+BL features,	adce, called_value_propagation, ee_instrument, ipsccp, jump_threading, simplifycfg, sccp
+shap features,	called_value_propagation, adce, ipsccp, simplifycfg, ee_instrument, pgo_memop_opt, inline
+anova features,	called_value_propagation, ipsccp, adce, ee_instrument, simplifycfg, pgo_memop_opt, inline
+rlf features,	called_value_propagation, adce, simplifycfg, ipsccp, ee_instrument, inline, pgo_memop_opt
+---------------------
+linear time, 328.266
+rf time, 656.675
+svr time, 122844.605
+ann time, 916.214
+lgbm time, 367.993
+#
+ 0,               linear,SHAP, 48.00,  6.00,  -------*  ----     |                   
+ 0,                linear,RLF, 48.00,  6.00,  -------*  ----     |                   
+ 0,              linear,anova, 48.00,  6.00,  -------*  ----     |                   
+ 0,                 linear,BL, 49.00,  4.00,       -- *--------  |                   
+ 0,                    ann,BL, 49.00, 13.00,     ---  *    ----  |                   
+#
+ 1,                   ann,RLF, 50.00,  9.00,     ---- *   ---    |                   
+ 1,                 ann,anova, 51.00,  7.00,      ---- *  -------|                   
+ 1,                  ann,SHAP, 53.00, 11.00,     ----   *  ------|-----              
+ 1,                linear,all, 54.00, 20.00,     --      *   ----|------             
+ 1,                   ann,all, 55.00, 16.00,       --    *   ----|------             
+#
+ 2,                     rf,BL, 57.00,  8.00,           -- *  ----|---                
+ 2,                  svr,SHAP, 58.00, 24.00,        -----  *     |    ------------   
+ 2,                   svr,RLF, 58.00, 24.00,        -----  *     |    ------------   
+ 2,                 svr,anova, 58.00, 24.00,        -----  *     |    ------------   
+ 2,                   lgbm,BL, 59.00,  8.00,          ---  * --- |                   
+ 2,                    svr,BL, 61.00, 11.00,             -- *    |---                
+ 2,                   svr,all, 61.00, 12.00,         ------ *    |------             
+#
+ 3,                    rf,all, 66.00,  5.00,              -----* |----------------   
+ 3,                   rf,SHAP, 70.00, 17.00,             ---     *   ------------    
+ 3,                    rf,RLF, 70.00, 17.00,             ---     *   ------------    
+ 3,                  rf,anova, 70.00, 17.00,             ---     *   ------------    
+ 3,                 lgbm,SHAP, 74.00, 20.00,              ---    |  *   ---------    
+ 3,                  lgbm,RLF, 74.00, 20.00,              ---    |  *   ---------    
+ 3,                lgbm,anova, 74.00, 20.00,              ---    |  *   ---------    
+#
+ 4,                  lgbm,all, 99.00, 14.00,                -----|--------       *   
